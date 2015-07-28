@@ -1,0 +1,165 @@
+<head>
+    <meta charset="utf-8" />
+    <title> Home | PLP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/foundation.css" />
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/vendor/fastclick.js"></script>
+    <script src="/js/vendor/modernizr.js"></script>
+    <script src="/node_modules/zeroclipboard/dist/ZeroClipboard.js">
+        ZeroClipboard.config( { swfPath: "/node_modules/zeroclipboard/dist/ZeroClipboard.swf" } );
+    </script>
+    <script src="/js/bowser.min.js"></script>
+    <link rel="shortcut icon" href="/resources/pulp.png" type="image/png"/>
+</head>
+
+<body>
+
+<div class="row full-width">
+<div class="show-for-large-up"> <!-- change medium to large for top-bar on medium screens --!>
+        <div class="medium-6 columns">
+            <a href="/home.html"><img src="/resources/pulp.png" height="70px" width="70px" style="float:left;"/></a> 
+            <a href="/home.html"><h3 class="noanchor">Progressive Learning Platform (PLP)</h3></a>
+        </div>
+        <div class="medium-6 columns ">
+            <ul class="inline-list right">
+                <!-- quick links go here as <li>s --!>
+                <li><a href="/home.html">Home</a></li>
+                <li><a href="/plptool.html">PLP Tool</a></li>
+                <li><a href="/instructions.html">ISA, Syntax, and I/O</a></li>
+                <li><a href="/implementation.html">PLP Implementation</a></li>
+                <li><a href="/glossary.html">Glossary</a></li>
+                <li><a href="https://github.com/Progressive-Learning-Platform/progressive-learning-platform" target="_blank">GitHub</a></li>
+                <li><a href="/resources/quick-ref.pdf">Quick Reference(PDF)</a></li>
+            </ul>
+        </div>
+</div>
+</div>
+
+
+
+<div class="off-canvas-wrap" data-offcanvas>
+    <div class="inner-wrap">
+        <div class="hide-for-large-up">
+            <nav class="tab-bar">
+                <div class="left-small">
+                    <a href="#plp-left-menu" role="button" class="left-off-canvas-toggle menu-icon"><span></span></a>
+                </div>
+                <div class="middle tab-bar-section">
+                    <h3 class="title"><a href="/home.html" style="text-decoration:none "><font color="white">PLP</font></a></h3>
+                </div>
+                <div class="right-small">
+                    <a href="#plp-right-menu" role="button" class="right-off-canvas-toggle menu-icon"><span></span></a>
+                </div>
+            </nav>
+
+            <aside class="left-off-canvas-menu" id="plp-left-menu">
+                <ul class="off-canvas-list">
+                    <li><label>Table of Contents</label></li>
+                    <div class="placetablehere" ></div>
+                    <!-- table of contents would go here as <li>s --!>
+                </ul>
+            </aside>
+
+            <aside class="right-off-canvas-menu">
+                <ul class="off-canvas-list">
+                    <li><label>Quick Links</label></li>
+                    <!-- quick links go here as <li>s --!>
+                    <li><a href="/home.html">Home</a></li>
+                    <li><a href="/plptool.html">PLP Tool</a></li>
+                    <li><a href="/instructions.html">ISA, Syntax, and I/O</a></li>
+                    <li><a href="/implementation.html">PLP Implementation</a></li>
+                    <li><a href="/glossary.html">Glossary</a></li>
+                    <li><a href="https://github.com/Progressive-Learning-Platform/progressive-learning-platform">GitHub</a></li>
+                    <li><a href="/resources/quick-ref.pdf">Quick Reference(PDF)</a></li>
+                </ul>
+            </aside>
+
+        </div>
+        <div class="row full-width">
+        <section id="actual-content" class="main-section">
+            <div class="hide-for-small-only">
+    <div class="medium-3 columns">
+	<div class="panel">
+
+	
+<!-- NOTE: the following block must not be indented or it isn't properly recognized as markdown -->
+
+<h3 class="noanchor"> Table of Contents </h3>
+<div class="toc">
+
+        <ol>
+          <li><a href="/plptool.html">PLP Tool</a></li>
+          <li><a href="/instructions.html">ISA, Syntax, and I/O</a></li>
+          <li><a href="/implementation.html">Implementation</a></li>
+          <li><a href="/glossary.html">Glossary</a></li>
+        </ol>
+
+      </div>
+<!-- END OF MARKDOWN BLOCK -->
+
+
+        </div>
+    </div>
+</div>
+
+<div class="medium-9 columns">
+
+  <h1 id="span-titlerev-2015-06-24t1256welcomespan"><span title="rev 2015-06-24T12:56">Welcome</span></h1>
+
+  <p>Welcome to the User Manual/Wiki for PLP Tool.  Here you will find information regarding the installation, setup, and usage of PLP Tool, as well as an overview of the PLP Instruction Set Architecture and working with and manage the PLP Board and related hardware.</p>
+
+  <p>To get started, click <a href="/plptool.html">here</a> to visit the installation and setup page, or click any of the links to the left.</p>
+
+</div>
+
+        </section>
+        </div>
+
+        <a class="exit-off-canvas"></a>
+    </div>
+</div>
+
+
+<script src="/js/foundation/foundation.js"></script>
+<script src="/js/foundation/foundation.offcanvas.js"></script>
+<script src="/js/foundation.min.js"></script>
+<script>
+$(document).foundation( {
+    offcanvas : {
+        close_on_click : true
+        }
+} );
+</script>
+
+<script type="text/javascript">
+    $(".placetablehere").prepend($(".toc").clone());
+</script>
+
+<script type="text/javascript">
+    var client = new ZeroClipboard($(".copy-button"));
+    client.clip( $(".copy-button") );
+</script>
+
+<script type="text/javascript">
+window.onresize = function() {
+    var ht = $(window).height();
+    $("#actual-content").css({ "height": ht });
+};
+</script>
+
+<!-- script to detect browser and set textarea whitespace accordingly --!>
+<script type="text/javascript">
+
+var tar = $(".code");
+
+if( bowser.firefox )
+{
+    tar.css({ "white-space": "pre" });
+}
+else 
+{
+    tar.css({ "white-space": "nowrap" });
+}
+
+</body>

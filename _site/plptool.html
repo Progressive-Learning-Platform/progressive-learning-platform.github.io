@@ -1,0 +1,506 @@
+<head>
+    <meta charset="utf-8" />
+    <title> PLPTool | PLP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/foundation.css" />
+    <link rel="stylesheet" href="/anchorjs/anchor.css" />
+    <script src="/js/vendor/jquery.js"></script>
+    <script src="/js/vendor/modernizr.js"></script>
+    <script src="/js/vendor/fastclick.js"></script>
+    <script src="/anchorjs/anchor.min.js"></script>
+    <script src="/node_modules/zeroclipboard/dist/ZeroClipboard.js">
+        ZeroClipboard.config( { swfPath: "/node_modules/zeroclipboard/dist/ZeroClipboard.swf" } );
+    </script>
+    <script src="/js/bowser.min.js"></script>
+    <link rel="shortcut icon" href="/resources/pulp.png" type="image/png"/>
+    <link rel="stylesheet" href="/prism/prism.css"/>
+</head>
+
+<body>
+
+<div class="row full-width" >
+<div class="show-for-large-up"> <!-- change medium to large for top-bar on medium screens --!>
+        <div class="medium-6 columns">
+            <img src="/resources/pulp.png" height="70px" width="70px" style="float:left;"/>
+            <a href="/home.html"><h3 class="noanchor">Progressive Learning Platform (PLP)</h3></a>
+        </div>
+        <div class="medium-6 columns ">
+            <ul class="inline-list right">
+                <!-- quick links go here as <li>s --!>
+                <li><a href="/home.html">Home</a></li>
+                <li><a href="/plptool.html">PLP Tool</a></li>
+                <li><a href="/instructions.html">ISA, Syntax, and I/O</a></li>
+                <li><a href="/implementation.html">PLP Implementation</a></li>
+                <li><a href="/glossary.html">Glossary</a></li>
+                <li><a href="https://github.com/Progressive-Learning-Platform/progressive-learning-platform" target="_blank">GitHub</a></li>
+                <li><a href="/resources/quick-ref.pdf">Quick Reference(PDF)</a></li>
+            </ul>
+        </div>
+</div>
+</div>
+
+
+
+<div class="off-canvas-wrap" data-offcanvas>
+    <div class="inner-wrap">
+        <div class="hide-for-large-up">
+            <div class="fixed">
+            <nav class="tab-bar ">
+                <div class="left-small">
+                    <a href="#plp-left-menu" role="button" class="left-off-canvas-toggle menu-icon"><span></span></a>
+                </div>
+                <div class="middle tab-bar-section">
+                    <h3 class="title"><a href="/home.html" style="text-decoration:none "><font color="white">PLP</font></a></h3>
+                </div>
+                <div class="right-small">
+                    <a href="#plp-right-menu" role="button" class="right-off-canvas-toggle menu-icon"><span></span></a>
+                </div>
+            </nav>
+            </div>
+
+            <aside class="left-off-canvas-menu" id="plp-left-menu">
+                <ul class="off-canvas-list">
+                    <li><label>Table of Contents</label></li>
+                    <a class="placetablehere" ></a>
+                    <!-- table of contents would go here as <li>s --!>
+                </ul>
+            </aside>
+
+            <aside class="right-off-canvas-menu">
+                <ul class="off-canvas-list">
+                    <li><label>Quick Links</label></li>
+                    <!-- quick links go here as <li>s --!>
+                    <li><a href="/home.html">Home</a></li>
+                    <li><a href="/plptool.html">PLP Tool</a></li>
+                    <li><a href="/instructions.html">ISA, Syntax, and I/O</a></li>
+                    <li><a href="/implementation.html">PLP Implementation</a></li>
+                    <li><a href="/glossary.html">Glossary</a></li>
+                    <li><a href="https://github.com/Progressive-Learning-Platform/progressive-learning-platform">GitHub</a></li>
+                    <li><a href="/resources/quick-ref.pdf">Quick Reference(PDF)</a></li>
+                </ul>
+            </aside>
+
+        </div>
+        <!-- <div class="row full-width"> -->
+        <section id="actual-content" class="main-section" >
+            <div class="hide-for-small-only">
+    <div class="medium-3 columns">
+	<div class="panel">
+
+	
+<!-- NOTE: the following block must not be indented or it isn't properly recognized as markdown -->
+
+<h3 class="noanchor"> Table of Contents </h3>
+
+<div class="toc">
+
+<ol id="markdown-toc">
+  <li><a href="#software-tools-plptool">Software Tools (PLPTool)</a>    <ol>
+      <li><a href="#getting-plptool">Getting PLPTool</a></li>
+      <li><a href="#running-plptool">Running PLPTool</a></li>
+      <li><a href="#launching-plptool-with-the-command-line">Launching PLPTool with the Command Line</a></li>
+      <li><a href="#plptool-graphical-user-interface-gui">PLPTool Graphical User Interface (GUI)</a></li>
+      <li><a href="#simulator">Simulator</a>        <ol>
+          <li><a href="#io-device-toggles">I/O Device Toggles</a>            <ol>
+              <li><a href="#leds"><em>LEDs</em></a></li>
+              <li><a href="#switches"><em>Switches</em></a></li>
+              <li><a href="#seven-segment-displays"><em>Seven Segment Displays</em></a></li>
+              <li><a href="#uart"><em>UART</em></a></li>
+              <li><a href="#vga"><em>VGA</em></a></li>
+              <li><a href="#plpid"><em>PLPID</em></a></li>
+              <li><a href="#gpio-general-purpose-inputoutput"><em>GPIO (General Purpose Input/Output)</em></a></li>
+              <li><a href="#button-interrupt"><em>Button Interrupt</em></a></li>
+            </ol>
+          </li>
+          <li><a href="#breakpoints">Breakpoints</a></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+      </div>
+<!-- END OF MARKDOWN BLOCK -->
+
+
+        </div>
+    </div>
+</div>
+
+<div class="medium-9 columns my-content">
+  <div class="ancs" id="top"></div>
+
+  <h1 class="no_toc ancs" id="introduction">Introduction</h1>
+
+  <p>The Progressive Learning Platform (PLP) utilized on the PLP Board provides a unique learning platform designed to be simple, open, and useful for education.</p>
+
+  <p>This document serves as a detailed guide for developers for the Progressive Learning Platform System on a Chip (SoC).</p>
+
+  <h1 class="ancs" id="software-tools-plptool">Software Tools (PLPTool)</h1>
+
+  <p>PLPTool is the software suite for the Progressive Learning Platform that incorporates an assembler, a board simulator, and a board programming interface.</p>
+
+  <h2 class="ancs" id="getting-plptool">Getting PLPTool</h2>
+
+  <p>Always make sure to run the latest version of PLPTool. Not only does it offer new features or bug fixes, this manual is also tailored to the newest version and certain sections may not be applicable to older versions.</p>
+
+  <p>The latest version of PLPTool (5.0) is available on <a href="https://github.com/Progressive-Learning-Platform/progressive-learning-platform">GitHub</a>. Download the .zip file on the right side.  It will contain the following directories:</p>
+
+  <ul>
+    <li><em>images</em> - misc images for use by PLPTool</li>
+    <li><em>misc</em> - miscellaneous files</li>
+    <li><strong>resources</strong> - where you should find everything for PLPTool
+      <ul>
+        <li><strong>hw</strong> - Hardware images for the CPU (for all 3 supported boards)</li>
+        <li><strong>sw</strong> - Software tools (including PLPTool), example programs, and the software libraries
+          <ul>
+            <li><strong>PLPTool</strong>  - PLPTool (Windows 32/64-bit, and Mac/Linux)</li>
+            <li><strong>libplp</strong>   - PLP Software Libraries</li>
+            <li><strong>examples</strong> - Example Programs</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><em>web</em> - files used for the plp website</li>
+  </ul>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h2 class="ancs" id="running-plptool">Running PLPTool</h2>
+
+  <p>There are several requirements for running PLPTool:</p>
+
+  <ul>
+    <li>A Java Runtime Environment (JRE) that compiles with at least Java 2 Platform SE 5 (1.5)
+      <ul>
+        <li>If you aren’t sure if you meet this requirement, or you do not have a compatible JRE, you can download the latest version <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">here</a>.</li>
+      </ul>
+    </li>
+    <li>RXTX Library for Serial Communication
+      <ul>
+        <li>If you are using Windows, RXTX Library is bundled with PLPTool.</li>
+        <li>If you are using Mac/Linux, you must install the library manually.
+          <ul>
+            <li>If you are on Mac OS, follow the instructions <a href="http://rxtx.qbang.org/wiki/index.php/Installation_on_MacOS_X">here</a>.</li>
+            <li>If you are running Ubuntu, open a terminal window and type <code>apt-get install librxtx-java</code>. This may require root access on some machines.</li>
+            <li>If you are running another distribution of Linux, go <a href="http://rxtx.qbang.org/wiki/index.php/Installation_on_Linux">here</a> for instructions on how to install the RXTX library.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>If you are running Windows, you must know whether it is 32-bit or 64-bit.
+      <ul>
+        <li>To do this, press the “Start” button, right click on “Computer”, and click “Properties”. From there, you should see either a 32-bit or 64-bit system type.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>Once the above requirements are met, you are ready to run PLPTool.</p>
+
+  <p>First, you must extract the .zip file downloaded earlier containing PLPTool. After that, navigate to /sw/PLPTool/.</p>
+
+  <p>To run PLPTool:</p>
+
+  <ul>
+    <li>If you are using Windows 32-bit, you need to run the batch file <em>PLPToolWin32.bat</em>.</li>
+    <li>If you are using Windows 64-bit, you need to run the batch file <em>PLPToolWin64.bat</em>.</li>
+    <li>If you are using Mac/Linux, you must use the Command Line to launch PLPTool.
+      <ul>
+        <li>You can also do this in Windows.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h2 class="ancs" id="launching-plptool-with-the-command-line">Launching PLPTool with the Command Line</h2>
+
+  <p>In order to launch PLPTool, open a terminal (or Command Prompt) and navigate to where you previously extracted the PLP .zip file. Once you get to the PLP folder, navigate to /sw/PLPTool. From there, you can launch PLPTool with several options.</p>
+
+  <ul>
+    <li>To launch PLPTool:
+      <ul>
+        <li>For Windows 32-Bit, type:
+<code>
+ PLPToolWin32.bat
+</code></li>
+        <li>For Windows 64-Bit, type:
+<code>
+ PLPToolWin64.bat
+</code></li>
+        <li>For Mac/Linux, type:
+<code>
+ java -jar PLPToolStatic.jar
+</code></li>
+      </ul>
+    </li>
+    <li>To open a .plp project with PLPTool:
+      <ul>
+        <li>For Windows 32-Bit, type:
+<code>
+ PLPToolWin32.bat &lt;.plp file to open&gt;
+</code></li>
+        <li>For Windows 64-Bit, type:
+<code>
+ PLPToolWin64.bat &lt;.plp file to open&gt;
+</code></li>
+        <li>For Mac/Linux, type:
+<code>
+ java -jar PLPToolStatic.jar &lt;.plp file to open&gt;
+</code></li>
+      </ul>
+    </li>
+    <li>To list the source files contained in a .plp file, type:
+<code>
+   java -jar PLPToolStatic.jar -plp &lt;.plp file&gt;
+</code></li>
+  </ul>
+
+  <p>The -plp <code>&lt;plpfile&gt;</code> command can also take additional arguments that can be used to manipulate the project file without launching PLPTool. These additional arguments are:</p>
+
+  <div class="mobile">
+
+    <table class="mobile">
+      <thead>
+        <tr>
+          <th style="text-align: left"><strong>Command Line Argument</strong></th>
+          <th style="text-align: left"><strong>Description</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left">-c <code>&lt;asm 1&gt;</code> <code>&lt;asm 2&gt;</code> …</td>
+          <td style="text-align: left">Creates <code>&lt;plpfile&gt;</code> and imports <code>&lt;asm 1&gt;</code>, <code>&lt;asm 2&gt;</code>, … to the project</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-p <code>&lt;port&gt;</code></td>
+          <td style="text-align: left">Programs <code>&lt;plpfile&gt;</code> to the serial port</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-a</td>
+          <td style="text-align: left">Performs an assembly of the source files inside <code>&lt;plpfile&gt;</code></td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-i <code>&lt;asm 1&gt;</code> <code>&lt;asm 2&gt;</code> …</td>
+          <td style="text-align: left">Imports &lt;asm 1&gt;, &lt;asm 2&gt;, … into <code>&lt;plpfile&gt;</code> project file</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-d <code>&lt;directory&gt;</code></td>
+          <td style="text-align: left">Import all files in <code>&lt;directory&gt;</code> to the <code>&lt;plpfile&gt;</code> project file</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-e <code>&lt;index&gt;</code> <code>&lt;file&gt;</code></td>
+          <td style="text-align: left">Exports the source file with the index <code>&lt;index&gt;</code> as <code>&lt;file&gt;</code></td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-r <code>&lt;index&gt;</code></td>
+          <td style="text-align: left">Removes the source file with the index <code>&lt;index&gt;</code></td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-s <code>&lt;index&gt;</code></td>
+          <td style="text-align: left">Set the source file with the index <code>&lt;index&gt;</code> as the main program</td>
+        </tr>
+        <tr>
+          <td style="text-align: left">-m <code>&lt;index&gt;</code> <code>&lt;new index&gt;</code></td>
+          <td style="text-align: left">Set <code>&lt;new index&gt;</code> for the source file with the index <code>&lt;index&gt;</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h2 class="ancs" id="plptool-graphical-user-interface-gui">PLPTool Graphical User Interface (GUI)</h2>
+
+  <p>PLPTool starts in the development environment view, displaying the current open project, files in the project, and a status/console window. From here, you can import, remove, and create new assembly files, assemble the current project, go into simulation mode, and program the PLP board.</p>
+
+  <p><img src="/resources/users_manual_panes.png" alt="/resources/users_manual_panes.png" /></p>
+
+  <p>The <strong>Project Pane</strong> contains all the source files in the project. The <strong>Editor Pane</strong> displays the contents of the currently open source file. The <strong>Output Pane</strong> displays status, warning, and error messages.</p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h2 class="ancs" id="simulator">Simulator</h2>
+
+  <p>PLPTool includes a cycle-accurate simulator that can be accessed through the GUI or via a command-line argument.</p>
+
+  <ul>
+    <li>To launch the simulator from within PLPTool, press the “Simulator” toggle button.</li>
+    <li>To launch a text-based simulator from the command line, type:
+<code>
+   java -jar PLPToolStatic.jar -s &lt;.plp file&gt;
+</code></li>
+  </ul>
+
+  <p><img src="/resources/users_manual_buttons.png" alt="/resources/users_manual_buttons.png" /></p>
+
+  <p>Simulation mode adds additional controls to the GUI window.</p>
+
+  <ul>
+    <li>The first three buttons are the the single cycle increment (step), run, and reset buttons.
+      <ul>
+        <li>Step (F5) will advance the simulation by one cycle.</li>
+        <li>Run (F7) will continuously run the simulation.</li>
+        <li>Reset (F9) will return the CPU to the reset state, as well as reset all the registers to zero.</li>
+      </ul>
+    </li>
+    <li>The Floating Simulator Control Window allows you to stop and start/step the simulation, as well as control the step size.</li>
+    <li>The CPU View button will display the CPU window where you can view and modify register file contents, see disassembly listing, and access the debug console.</li>
+    <li>The Watcher Window button will display a window that allows the user to monitor the content of individual register addresses and buses.</li>
+  </ul>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h3 class="ancs" id="io-device-toggles">I/O Device Toggles</h3>
+
+  <p>In addition to the step, run, reset, floating simulator control, CPU view, and Watcher window buttons, there are eight input/output (I/O) device toggles that will appear.</p>
+
+  <p><img src="/resources/users_manual_io_devices.png" alt="/resources/users_manual_io_devices.png" /></p>
+
+  <h4 class="ancs" id="leds"><em>LEDs</em></h4>
+
+  <p>Pressing the LEDs toggle button will bring up the window shown below. It displays the LEDs that are currently lit as a result of your code. It also displays the memory address of the LEDs, as well as the value stored at that location.</p>
+
+  <p><img src="/resources/users_manual_led.png" alt="/resources/users_manual_led.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="switches"><em>Switches</em></h4>
+
+  <p>Pressing the Switches toggle button will bring up the window shown below. It displays an interactive window that allows you to select which switches you want to toggle on or off. It also displays the memory address of the switches, as well as the value stored at that location.</p>
+
+  <p><img src="/resources/users_manual_switch.png" alt="/resources/users_manual_switch.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="seven-segment-displays"><em>Seven Segment Displays</em></h4>
+
+  <p>Pressing the Seven Segment Displays toggle button will bring up the window shown below. It displays the segments currently lit on the seven segment displays. It also displays the memory address of the seven segment displays, as well as the value stored at that location.</p>
+
+  <p><img src="/resources/users_manual_sseg.png" alt="/resources/users_manual_sseg.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="uart"><em>UART</em></h4>
+
+  <p>Pressing the UART toggle button will bring up the window shown below. It displays a window that allows you to send and receive data through an emulated serial port. It gives you three options of sending the data:</p>
+
+  <ul>
+    <li>ASCII String</li>
+    <li>1-byte raw</li>
+    <li>Space-delimited raw</li>
+  </ul>
+
+  <p><img src="/resources/users_manual_uart.png" alt="/resources/users_manual_uart.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="vga"><em>VGA</em></h4>
+
+  <p>Pressing the VGA toggle button will bring up the window shown below. It displays a VGA window with a resolution of 640x480, where an image is displayed if your code writes to the VGA’s memory address. It also displays whether VGA is enabled or disabled, as well as the current frame pointer.</p>
+
+  <p><img src="/resources/users_manual_vga.png" alt="/resources/users_manual_vga.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="plpid"><em>PLPID</em></h4>
+
+  <p>Pressing the PLPID toggle button will bring up the window shown below. It displays a window that shows the frequency of the PLP Board you are using. This is useful for implementing a wait routine within your program.</p>
+
+  <p><img src="/resources/users_manual_plpid.png" alt="/resources/users_manual_plpid.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="gpio-general-purpose-inputoutput"><em>GPIO (General Purpose Input/Output)</em></h4>
+
+  <p>Pressing the GPIO toggle button will bring up the window shown below. It displays an interactive window with the 16 enabled GPIO ports (separated into Port A and Port B) for the emulated PLP Board. It also displays the contents of the tristate register.</p>
+
+  <p><img src="/resources/users_manual_gpio.png" alt="/resources/users_manual_gpio.png" /></p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+  <h4 class="ancs" id="button-interrupt"><em>Button Interrupt</em></h4>
+
+  <p>The Button Interrupt toggle triggers a jump in the program to your code’s interrupt service routine (ISR). No window is displayed.</p>
+
+  <h3 class="ancs" id="breakpoints">Breakpoints</h3>
+
+  <p>A breakpoint is a line in the program where execution halts. This useful for testing and debugging.</p>
+
+  <p>The breakpoint in PLP can be set by double-clicking the line number where you want the program to halt. However, a breakpoint can only be set on a line where an instruction is present, meaning it cannot be set on a blank line.</p>
+
+  <p>To clear an existing breakpoint, you can double-click on the line number where the breakpoint is located. You can also clear all the breakpoints by going to   <code>Simulation</code>   on the menu bar, and clicking the   <code>Clear Breakpoints</code>   option. This can also be done by pressing   <code>Ctrl + B</code>.</p>
+
+  <p><a href="#top">Back to the top</a></p>
+
+</div>
+
+        </section>
+        <!-- </div> -->
+
+        <a class="exit-off-canvas"></a>
+    </div>
+</div>
+
+
+<script src="/js/foundation/foundation.js"></script>
+<script src="/js/foundation/foundation.offcanvas.js"></script>
+<script src="/js/foundation.min.js"></script>
+<script>
+$(document).foundation( {
+    offcanvas : {
+        close_on_click : true
+        }
+} );
+</script>
+
+<script type="text/javascript">
+    anchors.options = {
+        placement: 'right',
+        icon: '&sect',
+        visible: 'always',
+        class: 'ancjs'
+    };
+    anchors.add().remove('.noanchor').remove('.title');
+</script>
+
+<script type="text/javascript">
+    $(".placetablehere").prepend($(".toc").clone());
+</script>
+
+<script type="text/javascript">
+    var client = new ZeroClipboard($(".copy-button"));
+    client.clip( $(".copy-button") );
+</script>
+
+<!-- <script type="text/javascript"> -->
+<!-- window.onresize = function() { -->
+<!--     var ht = $(window).height(); -->
+<!--     $("#actual-content").css({ "height": ht }); -->
+<!-- }; -->
+<!-- window.onload = function() { -->
+<!--     var ht = $(window).height(); -->
+<!--     $(".my-content").css({ "height": ht }); -->
+<!-- }; -->
+<!-- </script> -->
+
+<!-- script to detect browser and set textarea whitespace accordingly --!>
+<!-- <script type="text/javascript"> -->
+
+<!-- var tar = $(".code"); -->
+
+<!-- if( bowser.firefox ) -->
+<!-- { -->
+<!--     tar.css({ "white-space": "pre" }); -->
+<!-- } -->
+<!-- else --> 
+<!-- { -->
+<!--     tar.css({ "white-space": "nowrap" }); -->
+<!-- } -->
+
+<!-- </script> -->
+
+<script type="text/javascript" src="/prism/prism.js"></script>
+
+</body>
