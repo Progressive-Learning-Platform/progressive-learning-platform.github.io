@@ -1,4 +1,4 @@
 timezone: America/Phoenix
-baseurl: /progressive-learning-platform
+baseurl: /
 kramdown:
     input: GFM
