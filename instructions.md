@@ -685,8 +685,8 @@ Aside from $zero, $i0, $i1, and $ra, PLP does not explicitly assign special func
 
 <div class="mobile" markdown="1">
 
-| Register    	| Usage                     				| Notes | 
-| :-------    		| :----                     					| :---- | 
+| Register    	| Usage                     				| Notes 	| 
+| :-----------  		| :-------------------------      		| :-------	| 
 | `$zero`    		| Constant value 0          		| This register can not be written to and always returns the value 0 	| 
 | `$at`       		| Assembler temporary       | Assembler reserved, do not use 															| 
 | `$v0 - $v1` 	| Values for results        		| Use for return values of functions 															| 
