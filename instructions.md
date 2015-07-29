@@ -925,6 +925,7 @@ SSEG_LUT:
 .word	0xff	# All segments off
 </code></pre>
 <button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-ssegscroll-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-ssegscroll-ex">Copy to clipboard</button>
+<a href="{{site.baseurl}}/resources/plp-um-sseg_scroll.plp" download="sseg-scroll.plp"><button type="button" class="tiny button secondary">Download</button></a>
 
 <p class="panel show-for-touch">Note: clipboard access is not available on all platforms, reesults may vary.</p>
 
@@ -982,6 +983,7 @@ SSEG_LUT:
 .word	0xff	# All segments off
 </code></pre>
 <button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-swtosseg-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-swtosseg-ex">Copy to clipboard</button>
+<a href="{{site.baseurl}}/resources/plp-um-switch_to_sseg.plp" download="switch-to-sseg.plp"><button type="button" class="tiny button secondary">Download</button></a>
 
 <p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
 
@@ -1102,8 +1104,19 @@ SSEG_LUT:
 .word	0x8e	# f
 </code></pre>
 <button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-swtwos-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-swtwos-ex">Copy to clipboard</button>
+<a href="{{site.baseurl}}/resources/plp-um-switch_twos_comp.plp" download="switch-twos-comp.plp"><button type="button" class="tiny button secondary">Download</button></a>
 
 <p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+[Back to the top](#top)
+
+
+### 4 byte Switch Input Two's Compliment ###
+{:.ancs}
+
+This program is more complicated than the above examples. In this program, the user will enter a 4 byte number by using the Switches one byte at a time. The resulting value will be display on the Seven Segment Display as it is being entered. It will then negate the value via Two's Compliment, and display the final result on the Seven Segment Display.
+
+<a href="{{site.baseurl}}/resources/plp-um-twoscomp.plp" download="twos-comp.plp"><button type="button" class="tiny button secondary">Download</button></a>
 
 [Back to the top](#top)
 
