@@ -694,7 +694,7 @@ Aside from $zero, $i0, $i1, and $ra, PLP does not explicitly assign special func
 | `$t0 - $t9` | Temporaries               | Do not use these registers across function calls, as they will most likely be corrupted | 
 | `$s0 - $s7` | Saved temporaries         | These registers should be saved and restored after function calls | 
 | `$i0 - $i1   | Interrupt temporaries     | Use inside Interrupt Service Routine (ISR) | 
-| `$iv`       |  | Interrupt vector          | The CPU jumps to the address pointed by this register when an interrupt occurs | 
+| `$iv`       |  Interrupt vector          | The CPU jumps to the address pointed by this register when an interrupt occurs | 
 | `$sp`       | Stack pointer             | Use this register to implement a stack | 
 | `$ir`       | Interrupt return address  | Written by the CPU when an interrupt occurs | 
 | `$ra`       | Return address            | Do not manually write to this register unless restoring from the stack for nested function calls.  Use this register to return from a function using the jump register instruction | 
