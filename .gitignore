@@ -1,2 +1,5 @@
 # ignore _site directory, not needed
 _site/
+
+# ignore vim swap files
+*.swp
