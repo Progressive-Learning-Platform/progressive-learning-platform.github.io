@@ -24,6 +24,8 @@ inp-loop:
 # $t2 is the current total value
 # $t4 is the temp shift dest
 # $t5 is the two's compliment value
+
+# put a breakpoint on the line below for best results
     sw $t0 , 0($s1) # display the indicator value on the LEDs
 #   $t0 --> memory
 
@@ -102,6 +104,8 @@ disp-loop:
 #   $t3 --> memory
 
     srl $t0 , $t0 , 1   # shift indicator bits left once
+
+# put a breakpoint on the line below for best results
     sw $t0 , 0($s1) # store into LEDs
 #   $t0 --> memory
 
