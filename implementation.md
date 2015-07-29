@@ -387,12 +387,12 @@ The user uses the two registers in the interrupt controller, mask and status, al
 
 Before enabling interrupts, the user must supply a pointer to the interrupt vector in register $i0.
 
-<textarea class="code" rows="5" wrap="off">
+<pre><code class="language-plp">
 main:
   li $i0, isr # put a pointer to our isr in $i0
 
 isr: ...
-</textarea>
+</code></pre>
 
 
 When an interrupt occurs, the interrupt controller sets the corresponding bit in the status register. Before returning from an interrupt the user must clear any status bits that are resolved or unwanted.
@@ -405,7 +405,7 @@ When an interrupt occurs, the return address is stored in $i1.
 
 A typical interrupt vector:
 
-<textarea class="code" rows="15" wrap="off">
+<pre><code class="language-plp">
 isr:
 	li $t0, 0xf0700000
 	lw $t1, 4($t0)     # read the status register
@@ -419,7 +419,7 @@ isr:
 
 	jr $i1
 	sw $t1, 0($t0)     # store the mask register in the delay slot to guarantee proper exit
-</textarea>
+</code></pre>
 
 
 
