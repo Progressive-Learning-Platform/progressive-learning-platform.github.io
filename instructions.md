@@ -981,7 +981,7 @@ SSEG_LUT:
 .word	0x8e	# f
 .word	0xff	# All segments off
 </code></pre>
-<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-swtosseg-ex" class="tiny copy-button" data=clipboard-target="clipboard-content-swtosseg-ex">Copy to Clipboard</button>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-swtosseg-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-swtosseg-ex">Copy to clipboard</button>
 
 <p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
 
