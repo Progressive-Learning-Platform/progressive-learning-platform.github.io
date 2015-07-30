@@ -90,7 +90,7 @@ This document uses the following symbols and expressions throughout, refer here 
 * `<<` - shift left
 * `&` - bitwise AND
 * `|` - bitwise OR
-* `~` - inverse/bitwise NOR
+* `~` - inverse/bitwise NOT
 * `val = (expr) ? tr : fl` - this is a simplified version of an if-then-else statement
     * if `(expr)` is true, then `val` is set to `tr`. if `(expr)` is false, then `val` is set to `fl`
 * `<` - less than
