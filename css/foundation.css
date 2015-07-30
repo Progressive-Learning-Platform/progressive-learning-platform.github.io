@@ -6336,7 +6336,7 @@ th.hide-for-touch {
 
 .mobile {
     white-space: nowrap;
-    max-width:  80%;
+    max-width:  90%;
     max-height: 50%;
     display: block;
     overflow: auto;
