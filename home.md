@@ -15,8 +15,9 @@ layout: main-noanc
 
 1. [PLP Tool]({{site.baseurl}}/plptool.html)
 2. [ISA, Syntax, and I/O]({{site.baseurl}}/instructions.html)
-3. [Implementation]({{site.baseurl}}/implementation.html)
-4. [Glossary]({{site.baseurl}}/glossary.html)
+3. [PLP Implementation]({{site.baseurl}}/implementation.html)
+4. [Tutorials]({{site.baseurl}}/tutorials.html)
+5. [Glossary]({{site.baseurl}}/glossary.html)
 
 </div>
 <!-- END OF MARKDOWN BLOCK -->
