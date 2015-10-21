@@ -756,7 +756,7 @@ main:
     li $t1 , 0xf0200000 # load the memory address for the LEDs into $t1
 
 start:
-    lw $t2 , 0($t0) # load the value of the switches into $t2
+    lw $t2 , 0($t0) # load the value from the address of the switches into $t2
     sw $t2 , 0($t1) # store the value from $t2 into the address of the LEDs ($t1)
 
     j start # jump to the start label
