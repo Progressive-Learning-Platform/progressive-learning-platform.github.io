@@ -91,41 +91,44 @@ The RAM module is a volatile, random access memory that stores all the downloade
 ## UART ##
 {:.ancs}
 
-The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. The UART module is connected to the serial port on the PLP Board.
-
 The UART module is designed to send or receive a single byte at a time, and can only store one byte in the send and receive buffer. This means that you must first either send the data in the buffer before reloading the buffer and you must retrieve the data in the receive buffer (by polling) before the next byte is available.
 
 There are four registers that are memory mapped that the UART module uses:
 
 <div class="mobile" markdown="1">
 
-| Address | Description |
-|:--------|:------------|
-|`0xf0000000` | Command Register |
-|`0xf0000004` | Status Register|
-|`0xf0000008` | Receive Buffer|
-|`0xf000000c` | Send Buffer|
+| Address | Description | Contents Format |
+|:--------|:------------|:---------|
+|`0xf0000000` | Command Register	| `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx00` |
+|`0xf0000004` | Status Register		| `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx01` |
+|`0xf0000008` | Receive Buffer		| `xxxxxxxxxxxxxxxxxxxxxxxx00000000` |
+|`0xf000000c` | Send Buffer			| `xxxxxxxxxxxxxxxxxxxxxxxx00000000` |
 {:.mobile}
 
 </div>
 
-The command register's default value is 0. Writing the value `0x01` will initiate a send operation using the lowest byte in the send buffer. Writing `0x02` will clear the ready flag in the status register, thus preparing for the cycle again.
+### Command Register ###
+The command register is used to control the UART from a PLP program. For the bit positions described below, the command is issued by writing a value with a 1 in the corresponding bit position.
 
-The status register uses only the bottom two bits, with the remaining bits reading 0.
+Bit 0 (the least significant bit) is used to issue a *Send* command, which trasmits the byte currently in the **send buffer** over the UART. 
 
-  * The value `0x00` in the status register is the **clear to send bit** (CTS bit), which is set after a successful transfer of data from the send buffer. It indicates that another transmission can now be made.
-    * The CTS bit is `0x00` is during a transmission, and the data in the send buffer must not be modified during the transmission.
-  * The value `0x01` in the status register is the **ready bit**, which is set when a new byte has been successfully received.
-    * The ready bit can be cleared by writing `0x02` to the command register.
+Bit 1 is used to issue a *Clear Status* command, which indicates to the UART that the byte currently in the **receive buffer** has been read by your program. It is important that your program issues this command *after* reading the current character in the **receive buffer** because issuing this command will put the next byte into the **receive buffer** if there is one.
 
-The receive buffer holds the last received byte. On a successful receive, the ready bit will be set, allowing the user to poll the status register for incoming data. When the ready bit is not set, the receive buffer should not be read as any data contained within is invalid.
+### Status Register ###
+The status register is used to determine the current state of the UART. 
 
-The send buffer holds the byte that will be sent or is ready to be sent. During a send operation (CTS bit = `0x00`), the data in the send buffer **MUST NOT** be modified. The user should only update the send buffer when the CTS bit is reset.
+Bit 0 is the *Clear To Send* (CTS) bit and indicates if the UART is in the process of transmitting a byte over the UART. If the CTS bit is low (0) then the UART is currently sending a byte and writing a value to the **send buffer** could cause a loss of the data being trasmitted. If the CTS bit is high (1) then it is safe to write a new value to the **send buffer** for transmission.
 
-The UART module supports interrupts, and will trigger an interrupt whenever data is available in the receive buffer.
+Bit 1 is the *ready* bit and indicates if there is a new byte in the **receive buffer**. If it is high (1) then there is a new byte in the **receive buffer**. If it is low (0) then the byte in the **receive buffer** has already been read. It is important to note that the *ready* bit will only be accurate if the *Clear Status* command is used after the **receive buffer** has been read. The **receive buffer** will contain the last byte received by the UART after the *Clear Status* command is issued if there isn't another byte to receive from the UART.
 
-**_IMPORTANT NOTE:_** The user must complete a receive cycle (including clearing the ready bit) before clearing the interrupt status bit for the UART.
+### Receive Buffer ###
+The **receive buffer** contains the most recent byte that was received by the UART.
 
+### Send Buffer ###
+The **send buffer** is where your program needs to store the byte to be sent by the UART when the **command register** receives a *Send* command.
+
+### Technical Specifications ###
+The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. The UART module is connected to the serial port on the PLP Board.
 
 [Back to the top](#top)
 
