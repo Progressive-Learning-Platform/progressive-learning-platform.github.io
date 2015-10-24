@@ -49,6 +49,7 @@ layout: main
 This section contains example PLP programs along with explainations about how they work and how they were written. Everything in this section is a 
 work in progress so if something appears to be missing or doesn't make sense, feel free to post on the [PLP Google Group Forum](https://groups.google.com/forum/#!forum/progressive-learning-platform).
 
+This is being updated in version 2 of the PLP Manual
 
 ## Seven Segment Scroll ##
 {:.ancs}
@@ -69,12 +70,12 @@ li $t1, 0xffffffff	# Value written to seven segment display
 
 main:
 	li $t0, 0		# Counter
-	li $sp, SSEG_LUT	# Lookup table address
+	li $sp, SSEG_LUT		# Lookup table address
 	loop:
-		lw $t2, 0($sp)	# Read value from lookup table
-		sll $t1, $t1, 8	# Shift digit encodings left 1 byte (8 bits)
+		lw $t2, 0($sp)		# Read value from lookup table
+		sll $t1, $t1, 8		# Shift digit encodings left 1 byte (8 bits)
 		or $t1, $t1, $t2	# Set least significant digit to value from lookup table
-		sw $t1, 0($s0)	# Set value on seven segment display
+		sw $t1, 0($s0)		# Set value on seven segment display
 		addiu $t0, $t0, 1	# Increment counter
 		addiu $sp, $sp, 4	# Increase address by 1 word (4 bytes)
 		bne $t0, $s1, loop	# Return to loop label if $t0 != $s1
