@@ -128,7 +128,7 @@ The **receive buffer** contains the most recent byte that was received by the UA
 The **send buffer** is where your program needs to store the byte to be sent by the UART when the **command register** receives a *Send* command.
 
 ### Technical Specifications ###
-The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. The UART module is connected to the serial port on the PLP Board.
+The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. It is connected to the serial port on the PLP Board. The UART module supports interrupts and will trigger an interrupt whenever new data is available in the receive buffer.
 
 [Back to the top](#top)
 
