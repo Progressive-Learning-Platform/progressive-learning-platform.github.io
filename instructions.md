@@ -59,11 +59,11 @@ _Note:_ Comments are very helpful for debugging and helping others who read the 
 
 In many cases, you will have to use a number for a command or operation.  PLPTool has 3 different methods of writing numbers: binary, decimal, and hexadecimal.  Each has its own purpose, though most can be interchanged, with some exceptions.
 
-* To enter a binary number, prefix it with `0b` and make sure to only use `1` or `0`.
+* To enter a binary number, prefix it with `0b` and make sure to use a combination of only `1`s or `0`s.
 * To enter a decimal number, just type the number.  *NOTE:* Leading zeros will not affect the number: `1241` is the same as `0001241`.
 * To enter a hexadecimal number, use either the `0x` prefix or the `0h` prefix.  *NOTE:* The `0x` prefix is more common and widely accepted in other applications.
 
-Binary numbers are mostly used for clarification, or for emphasis on the bits instead of as a number.  Decimal numbers are used for immediate and regular vaues.  Hexadecimal numberrs are usually memory addresses or large values.
+Binary numbers are mostly used for clarification, or for emphasis on the bits instead of as a number.  Decimal numbers are used for immediate and regular vaues.  Hexadecimal numbers are usually memory addresses or large values.
 
 <pre><code class="language-plp">
 124 # this is a decimal number
@@ -121,7 +121,7 @@ The format for this would be `.org` followed by the address in memory desired.  
 .org 0x10000000
 </code></pre>
 
-_**IMPORTANT NOTE:**_ This must be the first non-comment line in the main source file.  It is possible however to have multiple .org statements throughout the program.
+_**IMPORTANT NOTE:**_ This must be the first non-comment line in the main source file.  It is possible, however, to have multiple .org statements throughout the program.
 
 [Back to the top](#top)
 
@@ -166,7 +166,7 @@ main:
 #### Space Allocation ####
 {:.ancs}
 
-PLPTool supports allocating space by taking the number of words to allocated by using the `.space` directive, as opposed to a single word with the `.word` directive.
+PLPTool supports allocating space by taking the number of words to be allocated by using the `.space` directive, as opposed to a single word with the `.word` directive.
 
   * For example, to allocate a variable with a length of 2 words, the code would be:
 
@@ -191,10 +191,10 @@ main:
 #### String Allocation ####
 {:.ancs}
 
-PLPTool supports two types of string allocation:
+PLPTool supports three types of string allocation:
 
   * `.ascii`
-    * This allocates a packed array of characters without a trailing null character (terminator), which indicates the end of the string
+    * This allocates a packed array of characters without a trailing null character (terminator) to indicate the end of the string.
 
 For example, if you wanted to allocate a variable with a string using the `.ascii` directive, the code would be:
 
@@ -205,7 +205,7 @@ my_string_ascii:
 
 
   * `.asciiz`
-    * This allocates a packed array of characters with a trailing null character that indicated the end of the string.
+    * This allocates a packed array of characters with a trailing null character that indicates the end of the string.
 
 For example, if you wanted to allocate a variable with a string using the `.asciiz` directive, the code would be:
 
@@ -216,13 +216,13 @@ my_string_asciiz:
 
 
   * `.asciiw`
-    * This allocates a word alligned array of characters with a trailing null character that indicated the end of the string.
+    * This allocates a word aligned array of characters with a trailing null character that indicates the end of the string.
 
 For example, if you wanted to allocate a variable with a string using the `.asciiw` directive, the code would be:
 
 <pre><code class="language-plp">
 my_string_asciiw:
-     .asciiw "example string" # word alligned, null terminator inserted at end of string
+     .asciiw "example string" # word aligned, null terminator inserted at end of string
 </code></pre>
 
 
@@ -266,7 +266,7 @@ label2:
 ## Operations ##
 {:.ancs}
 
-Below is the list of all operations within PLP, broken down into sections via their type. Their syntax, and example, the expression, and any notes are provided. Hover over the operation to see the exapanded title.
+Below is the list of all operations within PLP, broken down into sections by their type. The syntax, an example, a representative expression, and any notes are provided. Hover over the operation to see the exapanded title.
 
 ### Arithmetic Operations ###
 {:.ancs}
@@ -323,7 +323,7 @@ main:
     # note the lack of subiu, add handles both immediate value operations
     
 # multiply
-    mullo $t4 , $t3 , $t3	# mulltiply $t3(27) and $t3(27), store the LOWER 8 bytes(1 word)
+    mullo $t4 , $t3 , $t3	# multiply $t3(27) and $t3(27), store the LOWER 8 bytes(1 word)
     li $t0 , 65535	# load 65535 into $t0 (0xFFFF)
     li $t1 , 65535	# load 65535 into $t1 (0xFFFF)
     mullo $t2 , $t0 , $t1	# multiply $t0 and $t1, store LOWER word into $t2
@@ -331,7 +331,7 @@ main:
     # it should be noted that mullo and mulhi are deeply related
     # if the product of mullo overflows(is higher than you can represented with a signed integer), mulhi will return the sign bit, along with the rest of the bits
     # $t2 will have 4294836225(0xFFFE0001)
-    # $t2 will have 0(0x00000000)
+    # $t3 will have 0(0x00000000)
     #	NOTE: the most significant bit here is the sign bit(0) due to overflow
     # to read the whole number, stack the hex digits like so
     #	0x00000000 0xFFFE0001
@@ -424,8 +424,8 @@ main:
         andi $t2 , $t0 , 0b000011   # and $t0 with 0b000011 to get 0b000001 (1)
 
 # OR
-	ori $t3 , $t1 , 0b111111	# OR $t0 and 0b111111 to get 0b111111 (63)
-        or $t3 , $t0 , $t1  # AND $t0 and $t1 to get 0b111101 (61)
+	ori $t3 , $t0 , 0b111111	# OR $t0 and 0b111111 to get 0b111111 (63)
+        or $t3 , $t0 , $t1  # OR $t0 and $t1 to get 0b111101 (61)
 
 # NOR
 	nor $t4 , $t0 , $t1	# NOR $t0 and $t1 to get 0b000010 with leading 1s
@@ -511,7 +511,7 @@ main:
 	nop
 
 fun2:
-	addu $t1 , $t1 , $t4	$ # add $t4 to $t1, store result in $t1
+	addu $t1 , $t1 , $t4 # add $t4 to $t1, store result in $t1
 	jr $ra	# jump to the memory address in $ra
 	nop	# nop in branch delay slot
 
@@ -576,10 +576,10 @@ main:
 
 	lw $t2 , 0($t1)	# load the value from the memory address stored in $t1 with an offset of 0 into the $t2 register
 	# to break this down a bit
-	#	$t1 is the register in which the value will be loaded into
-	#	$t0 is the register where the memory location is located
+	#	$t2 is the register in which the value will be loaded into
+	#	$t1 is the register where the memory location is located
 	#	0 is the byte offset
-	# in the end, the value of $t1 will be loaded from the memory location of $t0 + 0
+	# in the end, the value of $t2 will be loaded from the memory location of $t1 + 0
 </code></pre>
 <button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-mem-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-mem-ex">Copy to clipboard</button>
 

@@ -82,7 +82,7 @@ The ROM module is a non-volatile, read-only memory that stores the bootloader (f
 ## RAM ##
 {:.ancs}
 
-The RAM module is a volatile, random access memory that stores all the downloaded program code and data. Generally, the programmer with place their program at the beginning of the RAM using the directive `.org 0x10000000` . Additionally, the stack is generally initialized at the "top" of RAM by using the directive `$sp = 0x10fffffc`  .
+The RAM module is a volatile, random access memory that stores all the downloaded program code and data. Generally, the programmer will place their program at the beginning of the RAM using the directive `.org 0x10000000` . Additionally, the stack is generally initialized at the "top" of RAM by using the directive `$sp = 0x10fffffc`  .
 
 [Back to the top](#top)
 
