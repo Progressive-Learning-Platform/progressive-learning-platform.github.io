@@ -539,8 +539,6 @@ Once you have selected the correct port, click `Download Program`, and the progr
 
 [Back to the top](#top)
 
-</div>
-
 ## I/O Examples ##
 {:.ancs}
 
@@ -735,5 +733,7 @@ temp
 | sw $rt, imm($rs) |  0x2b | 
 | lui $rt, imm |  0x0f | 
 {:.mobile}
+
+</div>
 
 </div>
