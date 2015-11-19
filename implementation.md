@@ -540,3 +540,200 @@ Once you have selected the correct port, click `Download Program`, and the progr
 [Back to the top](#top)
 
 </div>
+
+## I/O Examples ##
+{:.ancs}
+
+Below are some short examples on how to properly use each I/O device coupled with PLPTool. For additional examples, in video form, [visit the PLP youtube channel](https://www.youtube.com/channel/UCX-QCwA9DCvMA4DTXv7_tuQ).
+
+### LEDs ###
+{:.ancs}
+
+To use the LEDs, simple store a word into the memory address at `0xf0200000`.  <br>
+*Note:* the LEDs will only represent the lowest 8 bits of information.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-leds">
+.org 0x10000000
+
+main:
+    li $t0 , 0  # setting $t0 to 0
+    li $t1 , 0xf0200000 # setting $t1 to the memory address of the LEDs
+
+loop:
+    sw $t0 , 0($t1) # store the value of $t0 into the LEDs memory address
+    addiu $t0 , $t0 , 1 # increment $t0 by 1
+    j loop  # jump to the loop 
+    nop # nop after jump
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-leds" class="tiny copy-button" data-clipboard-target="clipboard-content-leds">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+This program will continuously increment a counter and display it on the LEDs.  When the number reaches 256, the LEDs will read 0 and start the cycle over again because they only show the least significant byte.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
+
+[Back to the top](#top)
+
+
+### Switches ###
+{:.ancs}
+
+To use the switches, load a word from the memory address at `0xf0100000` into a register.  You can then use this value within other parts of your program.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-switches">
+.org 0x10000000
+
+main: 
+    li $t0 , 0xf0100000 # load the memory address for the switches into $t0
+    li $t1 , 0xf0200000 # load the memory address for the LEDs into $t1
+
+start:
+    lw $t2 , 0($t0) # load the value from the address of the switches into $t2
+    sw $t2 , 0($t1) # store the value from $t2 into the address of the LEDs ($t1)
+
+    j start # jump to the start label
+    nop
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-switches" class="tiny copy-button" data-clipboard-target="clipboard-content-switches">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+This program will read in the value of the switches, then display that value on the LEDs.  The switches and LEDs have a 1-to-1 relation so pressing 0 and 1 on the switches will light up 0 and 1 on the LEDs.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
+
+[Back to the top](#top)
+
+
+### Seven Segment Displays ###
+{:.ancs}
+
+To use the Seven Segment Displays, you must store a value into the memory address of `0xf0a00000`.  This value is broken into 4 bytes: 1 for each seven segment display.
+Each byte section is further broken down into bits, where one bit corresponds for one of the seven(plus decimal point) segments.  This breakdown can be seen here: 
+
+![sseg2_fixed.png]({{site.baseurl}}/resources/users_manual_sseg2_fixed.png)
+
+We can write these segments as binary, where 0 is the least significant bit of a btye and 7 is the most significant bit.
+
+<pre><code class="language-plp">
+0b11111111
+  76543210
+</code></pre>>
+
+Using this format, and adding 3 more bytes to the front(because the Seven Segment Displays panel has 4 actual displays), we can display a wide range of characters on the Seven Segment Displays, although we mostly use it for hexadecimal numbers.  Using the Seven Segment Displays often requires the use of a bit of "translating" code to map a decimal value to a seven segment value.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-sseg">
+.org 0x10000000
+
+main:
+    li $t0 , 0xf0a00000 # load the memory address for the switches into $t0
+
+    li $t1 , 0xf9a4808e
+    # this hex number can be broken into fourths
+    #   0xf9 - for the first(left, most significant) digit
+    #   this is 0b11111001 in binary
+    #   0xa4 - for the second digit
+    #   0b10100100
+    #   0x80 - for the third digit
+    #   0b10000000
+    #   0x8e - for the fourth(last, right, least significant digit)
+    #   0b10001110
+    sw $t1 , 0($t0) # this stores the value into the memory address of the seven segment display
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-sseg " class="tiny copy-button" data-clipboard-target="clipboard-content-sseg">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+Beacause the Seven Segment Displays has an internal inverter(in the actual PLP board), we use 1's to denote a disabled segment and 0's to denote enabled segents.  That means, this above example would display '128f' on the seven segments.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
+
+[Back to the top](#top)
+
+
+### UART ###
+{:.ancs}
+
+temp
+
+Additional tutorial: [PLP UART and Interrupt Tutorial](https://www.youtube.com/watch?v=ZrlY5B6h8fA)
+
+[Back to the top](#top)
+
+
+### VGA ###
+{:.ancs}
+
+temp
+
+[Back to the top](#top)
+
+
+### PLPID ###
+{:.ancs}
+
+temp
+
+[Back to the top](#top)
+
+
+### GPIO ###
+{:.ancs}
+
+temp
+
+[Back to the top](#top)
+
+
+### Button Interrupt ###
+{:.ancs}
+
+temp
+
+[Back to the top](#top)
+
+
+### Opcodes temporary home ###
+{:.noanchor .no_toc}
+
+<div class="mobile" markdown="1">
+
+| Syntax        | Opcode/Function   |
+| :-------------------- | :------------     |
+| addu  $rd, $rs, $rt   | 0x00 / 0x21       |
+| addiu $rd, $rs, imm | 0x09 | 
+| subu  $rd, $rs, $rt   | 0x00 / 0x23     |
+| mullo $rd, $rs, $rt   | 0x00 / 0x10     |
+| mulhi $rd, $rs, $rt   | 0x00 / 0x11     |
+| and   $rd, $rs, $rt   | 0x00 / 0x24     |
+| andi  $rd, $rs, imm | 0x0c | 
+| or    $rd, $rs, $rt   |  0x00 / 0x25     |
+| ori   $rd, $rs, imm |  0x0d | 
+| nor   $rd, $rs, $rt   |  0x00 / 0x27     |
+| slt   $rd, $rs, $rt   | 0x00 / 0x2a     |
+| slti  $rd, $rs, imm | 0x0a | 
+| sltu  $rd, $rs, $rt   | 0x00 / 0x2b     |
+| sltiu $rd, $rs, imm | 0x0b | 
+| sll $rd, $rt, shamt | 0x00 / 0x00   |
+| sllv $rd, $rs, $rt  | 0x00 / 0x01 |
+| srl $rd, $rt, shamt | 0x00 / 0x02   |
+| srlv $rd, $rs, $rt  | 0x00 / 0x03 |
+| j label |  0x02 |
+| jr $rs          |  0x00 / 0x08       | 
+| jal label |  0x03 | 
+| jalr $rd, $rs   |  0x00 / 0x09       | 
+| beq $rt, $rs, label   |  0x04  | 
+| bne $rt, $rs, label   |  0x05  | 
+| lw $rt, imm($rs) |  0x23 | 
+| sw $rt, imm($rs) |  0x2b | 
+| lui $rt, imm |  0x0f | 
+{:.mobile}
+
+</div>
