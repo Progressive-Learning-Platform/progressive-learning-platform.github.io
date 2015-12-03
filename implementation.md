@@ -539,7 +539,7 @@ Once you have selected the correct port, click `Download Program`, and the progr
 
 [Back to the top](#top)
 
-## I/O Examples ##
+# I/O Examples #
 {:.ancs}
 
 Below are some short examples on how to properly use each I/O device coupled with PLPTool. For additional examples, in video form, [visit the PLP youtube channel](https://www.youtube.com/channel/UCX-QCwA9DCvMA4DTXv7_tuQ).
