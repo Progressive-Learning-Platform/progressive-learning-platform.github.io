@@ -88,6 +88,97 @@ The RAM module is a volatile, random access memory that stores all the downloade
 
 
 
+
+## Switches ##
+{:.ancs}
+
+#### Description ####
+{:.ancs}
+
+The Switches module is a read-only register that always holds the current value of the switch positions on the PLP Board. There are 8 switches on the PLP Board, which are mapped to the lowest byte of the register. Writing to this register will have no effect.
+
+[Back to the top](#top)
+
+#### Code Example ####
+{:.ancs}
+
+To use the switches, load a word from the memory address at `0xf0100000` into a register.  You can then use this value within other parts of your program.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-switches">
+.org 0x10000000
+
+main: 
+    li $t0 , 0xf0100000 # load the memory address for the switches into $t0
+    li $t1 , 0xf0200000 # load the memory address for the LEDs into $t1
+
+start:
+    lw $t2 , 0($t0) # load the value from the address of the switches into $t2
+    sw $t2 , 0($t1) # store the value from $t2 into the address of the LEDs ($t1)
+
+    j start # jump to the start label
+    nop
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-switches" class="tiny copy-button" data-clipboard-target="clipboard-content-switches">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+This program will read in the value of the switches, then display that value on the LEDs.  The switches and LEDs have a 1-to-1 relation so pressing 0 and 1 on the switches will light up 0 and 1 on the LEDs.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
+
+[Back to the top](#top)
+
+
+
+
+## LEDs ##
+{:.ancs}
+
+#### Description ####
+{:.ancs}
+
+The LEDs module is a read-write register that stores the value of the LEDs on the PLP Board. There are 8 LEDs, mapped to the lowest byte of the register. Reading the register will provide the current status of the LEDs, and writing to the register will update the LEDs' status.
+
+
+[Back to the top](#top)
+
+#### Code Example ####
+{:.ancs}
+
+To use the LEDs, simple store a word into the memory address at `0xf0200000`.  <br>
+*Note:* the LEDs will only represent the lowest 8 bits of information.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-leds">
+.org 0x10000000
+
+main:
+    li $t0 , 0  # setting $t0 to 0
+    li $t1 , 0xf0200000 # setting $t1 to the memory address of the LEDs
+
+loop:
+    sw $t0 , 0($t1) # store the value of $t0 into the LEDs memory address
+    addiu $t0 , $t0 , 1 # increment $t0 by 1
+    j loop  # jump to the loop 
+    nop # nop after jump
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-leds" class="tiny copy-button" data-clipboard-target="clipboard-content-leds">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+This program will continuously increment a counter and display it on the LEDs.  When the number reaches 256, the LEDs will read 0 and start the cycle over again because they only show the least significant byte.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
+
+[Back to the top](#top)
+
+
+
+
+
 ## UART ##
 {:.ancs}
 
@@ -107,50 +198,117 @@ There are four registers that are memory mapped that the UART module uses:
 
 </div>
 
-### Command Register ###
+#### Command Register ####
 The command register is used to control the UART from a PLP program. For the bit positions described below, the command is issued by writing a value with a 1 in the corresponding bit position.
 
 Bit 0 (the least significant bit) is used to issue a *Send* command, which trasmits the byte currently in the **send buffer** over the UART. 
 
 Bit 1 is used to issue a *Clear Status* command, which indicates to the UART that the byte currently in the **receive buffer** has been read by your program. It is important that your program issues this command *after* reading the current character in the **receive buffer** because issuing this command will put the next byte into the **receive buffer** if there is one.
 
-### Status Register ###
+#### Status Register ####
 The status register is used to determine the current state of the UART. 
 
 Bit 0 is the *Clear To Send* (CTS) bit and indicates if the UART is in the process of transmitting a byte over the UART. If the CTS bit is low (0) then the UART is currently sending a byte and writing a value to the **send buffer** could cause a loss of the data being trasmitted. If the CTS bit is high (1) then it is safe to write a new value to the **send buffer** for transmission.
 
 Bit 1 is the *ready* bit and indicates if there is a new byte in the **receive buffer**. If it is high (1) then there is a new byte in the **receive buffer**. If it is low (0) then the byte in the **receive buffer** has already been read. It is important to note that the *ready* bit will only be accurate if the *Clear Status* command is used after the **receive buffer** has been read. The **receive buffer** will contain the last byte received by the UART after the *Clear Status* command is issued if there isn't another byte to receive from the UART.
 
-### Receive Buffer ###
+#### Receive Buffer ####
 The **receive buffer** contains the most recent byte that was received by the UART.
 
-### Send Buffer ###
+#### Send Buffer ####
 The **send buffer** is where your program needs to store the byte to be sent by the UART when the **command register** receives a *Send* command.
 
-### Technical Specifications ###
+#### Technical Specifications ####
 The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. It is connected to the serial port on the PLP Board. The UART module supports interrupts and will trigger an interrupt whenever new data is available in the receive buffer.
 
 [Back to the top](#top)
 
 
 
-## Switches ##
+
+
+
+## Seven Segment Displays ##
 {:.ancs}
 
-The Switches module is a read-only register that always holds the current value of the switch positions on the PLP Board. There are 8 switches on the PLP Board, which are mapped to the lowest byte of the register. Writing to this register will have no effect.
+#### Description ####
 
+The Seven Segment Displays module exposes the raw seven segment LEDs to the user, allowing for specialized output. There are `libplp` wrappers that exist for various abstractions.
+
+There are 4 seven segment displays (seven segments plus a dot), mapped to four bytes in the register listed in the [Memory Map](UserManual#Memory_Map.md) section.
+
+The byte order is:
+
+<div class="mobile" markdown="1">
+
+| `[31:24]` | `[23:16]` | `[15:8]` | `[7:0]` |
+|:----------|:----------|:---------|:--------|
+| Left-most  |  |  | Right-most |
+{:.mobile}
+
+</div>
+
+The bits of each byte map to each of the segments as indicated by the figure below.
+
+![{{site.baseurl}}/resources/users_manual_sseg2_fixed.png]({{site.baseurl}}/resources/users_manual_sseg2_fixed.png)
+
+**_IMPORTANT NOTE:_** The seven segment displays have a built-in inverter that requires the user to invert the bits in the byte before converting to hexadecimal.
+
+  * For example, to program the seven segment displays to display the letter "F", the portions of the seven segment display that would light up would be 0, 4, 5, and 6. This would make the byte `0b01110001`. Remember, the bits must be inverted before converting to hexadecimal. This makes the byte `0b10001110`, which in hexadecimal is `0x8E`. Thus, the code for "F" is `0x8E`.
+
+
+[Back to the top](#top)
+
+#### Code Example ####
+{:.ancs}
+
+To use the Seven Segment Displays, you must store a value into the memory address of `0xf0a00000`.  This value is broken into 4 bytes: 1 for each seven segment display.
+Each byte section is further broken down into bits, where one bit corresponds for one of the seven(plus decimal point) segments.  This breakdown can be seen here: 
+
+![sseg2_fixed.png]({{site.baseurl}}/resources/users_manual_sseg2_fixed.png)
+
+We can write these segments as binary, where 0 is the least significant bit of a btye and 7 is the most significant bit.
+
+<pre><code class="language-plp">
+0b11111111
+  76543210
+</code></pre>>
+
+Using this format, and adding 3 more bytes to the front(because the Seven Segment Displays panel has 4 actual displays), we can display a wide range of characters on the Seven Segment Displays, although we mostly use it for hexadecimal numbers.  Using the Seven Segment Displays often requires the use of a bit of "translating" code to map a decimal value to a seven segment value.
+
+Example:
+
+<pre><code class="language-plp" id="clipboard-content-sseg">
+.org 0x10000000
+
+main:
+    li $t0 , 0xf0a00000 # load the memory address for the switches into $t0
+
+    li $t1 , 0xf9a4808e
+    # this hex number can be broken into fourths
+    #   0xf9 - for the first(left, most significant) digit
+    #   this is 0b11111001 in binary
+    #   0xa4 - for the second digit
+    #   0b10100100
+    #   0x80 - for the third digit
+    #   0b10000000
+    #   0x8e - for the fourth(last, right, least significant digit)
+    #   0b10001110
+    sw $t1 , 0($t0) # this stores the value into the memory address of the seven segment display
+</code></pre>
+<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-sseg " class="tiny copy-button" data-clipboard-target="clipboard-content-sseg">Copy to clipboard</button>
+
+<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
+
+Beacause the Seven Segment Displays has an internal inverter(in the actual PLP board), we use 1's to denote a disabled segment and 0's to denote enabled segents.  That means, this above example would display '128f' on the seven segments.
+
+Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
 
 [Back to the top](#top)
 
 
 
-## LEDs ##
-{:.ancs}
 
-The LEDs module is a read-write register that stores the value of the LEDs on the PLP Board. There are 8 LEDs, mapped to the lowest byte of the register. Reading the register will provide the current status of the LEDs, and writing to the register will update the LEDs' status.
-
-
-[Back to the top](#top)
 
 
 
@@ -310,39 +468,15 @@ The timer module supports interrupts, and will trigger an interrupt when the tim
 
 
 
-## Seven Segment Displays ##
-{:.ancs}
-
-The Seven Segment Displays module exposes the raw seven segment LEDs to the user, allowing for specialized output. There are `libplp` wrappers that exist for various abstractions.
-
-There are 4 seven segment displays (seven segments plus a dot), mapped to four bytes in the register listed in the [Memory Map](UserManual#Memory_Map.md) section.
-
-The byte order is:
-
-<div class="mobile" markdown="1">
-
-| `[31:24]` | `[23:16]` | `[15:8]` | `[7:0]` |
-|:----------|:----------|:---------|:--------|
-| Left-most  |  |  | Right-most |
-{:.mobile}
-
-</div>
-
-The bits of each byte map to each of the segments as indicated by the figure below.
-
-![{{site.baseurl}}/resources/users_manual_sseg2_fixed.png]({{site.baseurl}}/resources/users_manual_sseg2_fixed.png)
-
-**_IMPORTANT NOTE:_** The seven segment displays have a built-in inverter that requires the user to invert the bits in the byte before converting to hexadecimal.
-
-  * For example, to program the seven segment displays to display the letter "F", the portions of the seven segment display that would light up would be 0, 4, 5, and 6. This would make the byte `0b01110001`. Remember, the bits must be inverted before converting to hexadecimal. This makes the byte `0b10001110`, which in hexadecimal is `0x8E`. Thus, the code for "F" is `0x8E`.
 
 
-[Back to the top](#top)
 
 
 
 ## Interrupt Controller ##
 {:.ancs}
+
+### Description ###
 
 <div class="mobile" markdown="1">
 
@@ -539,121 +673,18 @@ Once you have selected the correct port, click `Download Program`, and the progr
 
 [Back to the top](#top)
 
+</div>
+
+
+
+
+
+<!--  Everything below this point has been commented out and should be deleted or moved
 # I/O Examples #
 {:.ancs}
 
 Below are some short examples on how to properly use each I/O device coupled with PLPTool. For additional examples, in video form, [visit the PLP youtube channel](https://www.youtube.com/channel/UCX-QCwA9DCvMA4DTXv7_tuQ).
 
-### LEDs ###
-{:.ancs}
-
-To use the LEDs, simple store a word into the memory address at `0xf0200000`.  <br>
-*Note:* the LEDs will only represent the lowest 8 bits of information.
-
-Example:
-
-<pre><code class="language-plp" id="clipboard-content-leds">
-.org 0x10000000
-
-main:
-    li $t0 , 0  # setting $t0 to 0
-    li $t1 , 0xf0200000 # setting $t1 to the memory address of the LEDs
-
-loop:
-    sw $t0 , 0($t1) # store the value of $t0 into the LEDs memory address
-    addiu $t0 , $t0 , 1 # increment $t0 by 1
-    j loop  # jump to the loop 
-    nop # nop after jump
-</code></pre>
-<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-leds" class="tiny copy-button" data-clipboard-target="clipboard-content-leds">Copy to clipboard</button>
-
-<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
-
-This program will continuously increment a counter and display it on the LEDs.  When the number reaches 256, the LEDs will read 0 and start the cycle over again because they only show the least significant byte.
-
-Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
-
-[Back to the top](#top)
-
-
-### Switches ###
-{:.ancs}
-
-To use the switches, load a word from the memory address at `0xf0100000` into a register.  You can then use this value within other parts of your program.
-
-Example:
-
-<pre><code class="language-plp" id="clipboard-content-switches">
-.org 0x10000000
-
-main: 
-    li $t0 , 0xf0100000 # load the memory address for the switches into $t0
-    li $t1 , 0xf0200000 # load the memory address for the LEDs into $t1
-
-start:
-    lw $t2 , 0($t0) # load the value from the address of the switches into $t2
-    sw $t2 , 0($t1) # store the value from $t2 into the address of the LEDs ($t1)
-
-    j start # jump to the start label
-    nop
-</code></pre>
-<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-switches" class="tiny copy-button" data-clipboard-target="clipboard-content-switches">Copy to clipboard</button>
-
-<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
-
-This program will read in the value of the switches, then display that value on the LEDs.  The switches and LEDs have a 1-to-1 relation so pressing 0 and 1 on the switches will light up 0 and 1 on the LEDs.
-
-Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
-
-[Back to the top](#top)
-
-
-### Seven Segment Displays ###
-{:.ancs}
-
-To use the Seven Segment Displays, you must store a value into the memory address of `0xf0a00000`.  This value is broken into 4 bytes: 1 for each seven segment display.
-Each byte section is further broken down into bits, where one bit corresponds for one of the seven(plus decimal point) segments.  This breakdown can be seen here: 
-
-![sseg2_fixed.png]({{site.baseurl}}/resources/users_manual_sseg2_fixed.png)
-
-We can write these segments as binary, where 0 is the least significant bit of a btye and 7 is the most significant bit.
-
-<pre><code class="language-plp">
-0b11111111
-  76543210
-</code></pre>>
-
-Using this format, and adding 3 more bytes to the front(because the Seven Segment Displays panel has 4 actual displays), we can display a wide range of characters on the Seven Segment Displays, although we mostly use it for hexadecimal numbers.  Using the Seven Segment Displays often requires the use of a bit of "translating" code to map a decimal value to a seven segment value.
-
-Example:
-
-<pre><code class="language-plp" id="clipboard-content-sseg">
-.org 0x10000000
-
-main:
-    li $t0 , 0xf0a00000 # load the memory address for the switches into $t0
-
-    li $t1 , 0xf9a4808e
-    # this hex number can be broken into fourths
-    #   0xf9 - for the first(left, most significant) digit
-    #   this is 0b11111001 in binary
-    #   0xa4 - for the second digit
-    #   0b10100100
-    #   0x80 - for the third digit
-    #   0b10000000
-    #   0x8e - for the fourth(last, right, least significant digit)
-    #   0b10001110
-    sw $t1 , 0($t0) # this stores the value into the memory address of the seven segment display
-</code></pre>
-<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-sseg " class="tiny copy-button" data-clipboard-target="clipboard-content-sseg">Copy to clipboard</button>
-
-<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
-
-Beacause the Seven Segment Displays has an internal inverter(in the actual PLP board), we use 1's to denote a disabled segment and 0's to denote enabled segents.  That means, this above example would display '128f' on the seven segments.
-
-Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=ddDRRAzlGKk)
-
-[Back to the top](#top)
 
 
 ### UART ###
@@ -665,37 +696,6 @@ Additional tutorial: [PLP UART and Interrupt Tutorial](https://www.youtube.com/w
 
 [Back to the top](#top)
 
-
-### VGA ###
-{:.ancs}
-
-temp
-
-[Back to the top](#top)
-
-
-### PLPID ###
-{:.ancs}
-
-temp
-
-[Back to the top](#top)
-
-
-### GPIO ###
-{:.ancs}
-
-temp
-
-[Back to the top](#top)
-
-
-### Button Interrupt ###
-{:.ancs}
-
-temp
-
-[Back to the top](#top)
 
 
 ### Opcodes temporary home ###
@@ -736,4 +736,11 @@ temp
 
 </div>
 
-</div>
+-->
+
+
+
+
+
+
+
