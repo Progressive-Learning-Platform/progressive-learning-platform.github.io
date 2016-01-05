@@ -182,6 +182,9 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 ## UART ##
 {:.ancs}
 
+#### Description ####
+{:.ancs}
+
 The UART module is designed to send or receive a single byte at a time, and can only store one byte in the send and receive buffer. This means that you must first either send the data in the buffer before reloading the buffer and you must retrieve the data in the receive buffer (by polling) before the next byte is available.
 
 There are four registers that are memory mapped that the UART module uses:
@@ -198,27 +201,27 @@ There are four registers that are memory mapped that the UART module uses:
 
 </div>
 
-#### Command Register ####
+##### Command Register #####
 The command register is used to control the UART from a PLP program. For the bit positions described below, the command is issued by writing a value with a 1 in the corresponding bit position.
 
 Bit 0 (the least significant bit) is used to issue a *Send* command, which trasmits the byte currently in the **send buffer** over the UART. 
 
 Bit 1 is used to issue a *Clear Status* command, which indicates to the UART that the byte currently in the **receive buffer** has been read by your program. It is important that your program issues this command *after* reading the current character in the **receive buffer** because issuing this command will put the next byte into the **receive buffer** if there is one.
 
-#### Status Register ####
+##### Status Register #####
 The status register is used to determine the current state of the UART. 
 
 Bit 0 is the *Clear To Send* (CTS) bit and indicates if the UART is in the process of transmitting a byte over the UART. If the CTS bit is low (0) then the UART is currently sending a byte and writing a value to the **send buffer** could cause a loss of the data being trasmitted. If the CTS bit is high (1) then it is safe to write a new value to the **send buffer** for transmission.
 
 Bit 1 is the *ready* bit and indicates if there is a new byte in the **receive buffer**. If it is high (1) then there is a new byte in the **receive buffer**. If it is low (0) then the byte in the **receive buffer** has already been read. It is important to note that the *ready* bit will only be accurate if the *Clear Status* command is used after the **receive buffer** has been read. The **receive buffer** will contain the last byte received by the UART after the *Clear Status* command is issued if there isn't another byte to receive from the UART.
 
-#### Receive Buffer ####
+##### Receive Buffer #####
 The **receive buffer** contains the most recent byte that was received by the UART.
 
-#### Send Buffer ####
+##### Send Buffer #####
 The **send buffer** is where your program needs to store the byte to be sent by the UART when the **command register** receives a *Send* command.
 
-#### Technical Specifications ####
+##### Technical Specifications #####
 The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no parity. It is connected to the serial port on the PLP Board. The UART module supports interrupts and will trigger an interrupt whenever new data is available in the receive buffer.
 
 [Back to the top](#top)
@@ -232,6 +235,7 @@ The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no p
 {:.ancs}
 
 #### Description ####
+{:.ancs}
 
 The Seven Segment Displays module exposes the raw seven segment LEDs to the user, allowing for specialized output. There are `libplp` wrappers that exist for various abstractions.
 
@@ -309,6 +313,115 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 
 
 
+
+
+## Interrupt Controller ##
+{:.ancs}
+
+#### Description ####
+{:.ancs}
+
+<div class="mobile" markdown="1">
+
+| Register | Description |
+|:---------|:------------|
+| `0xf0700000` | Mask |
+| `0xf0700004` | Status |
+{:.mobile}
+
+</div>
+
+Mask Register:
+
+<div class="mobile" markdown="1">
+
+| bit | Description |
+|:----|:------------|
+| 31-4 | Reserved |
+| 3 | Button Interrupt |
+| 2 | UART Interrupt |
+| 1 | Timer Interrupt |
+| 0 | Global Interrupt Enable |
+{:.mobile}
+
+</div>
+
+Status Register:
+
+<div class="mobile" markdown="1">
+
+| bit | Interrupt Reason |
+|:----|:-----------------|
+| 31-4 | Reserved (Always 0) |
+| 3 | Button Interrupt |
+| 2 | UART Interrupt |
+| 1 | Timer Interrupt |
+| 0 | Always 1 |
+{:.mobile}
+
+</div>
+
+The interrupt controller marshals the interrupt behavior of the PLP system.
+
+The user uses the two registers in the interrupt controller, mask and status, along with the interrupt registers, $i0 and $i1, to control all interrupt behavior.
+
+Before enabling interrupts, the user must supply a pointer to the interrupt vector in register $i0.
+
+<pre><code class="language-plp">
+main:
+  li $i0, isr # put a pointer to our isr in $i0
+
+isr: ...
+</code></pre>
+
+
+When an interrupt occurs, the interrupt controller sets the corresponding bit in the status register. Before returning from an interrupt the user must clear any status bits that are resolved or unwanted.
+
+The user enables interrupts by setting any desired interrupts in the mask register, as well as setting the global interrupt enable (GIE) bit. When an interrupt occurs, the GIE bit is automatically cleared and must be set on interrupt exit.
+
+**_IMPORTANT NOTE:_** When returning from an interrupt, set the Global Interrupt Enable (GIE) bit in the delay slot of the returning jump instruction. This is necessary to prevent any interrupts from occurring while still in the interrupt vector.
+
+When an interrupt occurs, the return address is stored in $i1.
+
+A typical interrupt vector:
+
+<pre><code class="language-plp">
+isr:
+	li $t0, 0xf0700000
+	lw $t1, 4($t0)     # read the status register
+	  
+	#check status bits and handle any pending interrupts
+	#clear any handled interrupts in $t1
+
+	sw $t1, 4($t0)     # clear any handled interrupts in the status register
+	lw $t1, 0($t0)     # get the mask register
+	ori $t1, $t1, 1    # set GIE
+
+	jr $i1
+	sw $t1, 0($t0)     # store the mask register in the delay slot to guarantee proper exit
+</code></pre>
+
+
+
+[Back to the top](#top)
+
+
+
+
+
+
+## Timer ##
+{:.ancs}
+
+#### Description ####
+{:.ancs}
+
+The timer module is a single 32-bit counter that increments by one every clock cycle. It can be written to at any time. At overflow, the timer will continue counting. The timer module is useful for waiting a specific amount of time with high resolution (20ns on the reference design).
+
+The timer module supports interrupts, and will trigger an interrupt when the timer overflows. The user can configure a specific timed interrupt by presetting the timer value to N cycles before the overflow condition.
+
+
+[Back to the top](#top)
 
 
 
@@ -456,15 +569,6 @@ The CPUID module is useful for dynamically calculating wait time in a busy-wait 
 
 
 
-## Timer ##
-{:.ancs}
-
-The timer module is a single 32-bit counter that increments by one every clock cycle. It can be written to at any time. At overflow, the timer will continue counting. The timer module is useful for waiting a specific amount of time with high resolution (20ns on the reference design).
-
-The timer module supports interrupts, and will trigger an interrupt when the timer overflows. The user can configure a specific timed interrupt by presetting the timer value to N cycles before the overflow condition.
-
-
-[Back to the top](#top)
 
 
 
@@ -473,94 +577,8 @@ The timer module supports interrupts, and will trigger an interrupt when the tim
 
 
 
-## Interrupt Controller ##
-{:.ancs}
-
-### Description ###
-
-<div class="mobile" markdown="1">
-
-| Register | Description |
-|:---------|:------------|
-| `0xf0700000` | Mask |
-| `0xf0700004` | Status |
-{:.mobile}
-
-</div>
-
-Mask Register:
-
-<div class="mobile" markdown="1">
-
-| bit | Description |
-|:----|:------------|
-| 31-4 | Reserved |
-| 3 | Button Interrupt |
-| 2 | UART Interrupt |
-| 1 | Timer Interrupt |
-| 0 | Global Interrupt Enable |
-{:.mobile}
-
-</div>
-
-Status Register:
-
-<div class="mobile" markdown="1">
-
-| bit | Interrupt Reason |
-|:----|:-----------------|
-| 31-4 | Reserved (Always 0) |
-| 3 | Button Interrupt |
-| 2 | UART Interrupt |
-| 1 | Timer Interrupt |
-| 0 | Always 1 |
-{:.mobile}
-
-</div>
-
-The interrupt controller marshals the interrupt behavior of the PLP system.
-
-The user uses the two registers in the interrupt controller, mask and status, along with the interrupt registers, $i0 and $i1, to control all interrupt behavior.
-
-Before enabling interrupts, the user must supply a pointer to the interrupt vector in register $i0.
-
-<pre><code class="language-plp">
-main:
-  li $i0, isr # put a pointer to our isr in $i0
-
-isr: ...
-</code></pre>
 
 
-When an interrupt occurs, the interrupt controller sets the corresponding bit in the status register. Before returning from an interrupt the user must clear any status bits that are resolved or unwanted.
-
-The user enables interrupts by setting any desired interrupts in the mask register, as well as setting the global interrupt enable (GIE) bit. When an interrupt occurs, the GIE bit is automatically cleared and must be set on interrupt exit.
-
-**_IMPORTANT NOTE:_** When returning from an interrupt, set the Global Interrupt Enable (GIE) bit in the delay slot of the returning jump instruction. This is necessary to prevent any interrupts from occurring while still in the interrupt vector.
-
-When an interrupt occurs, the return address is stored in $i1.
-
-A typical interrupt vector:
-
-<pre><code class="language-plp">
-isr:
-	li $t0, 0xf0700000
-	lw $t1, 4($t0)     # read the status register
-	  
-	#check status bits and handle any pending interrupts
-	#clear any handled interrupts in $t1
-
-	sw $t1, 4($t0)     # clear any handled interrupts in the status register
-	lw $t1, 0($t0)     # get the mask register
-	ori $t1, $t1, 1    # set GIE
-
-	jr $i1
-	sw $t1, 0($t0)     # store the mask register in the delay slot to guarantee proper exit
-</code></pre>
-
-
-
-[Back to the top](#top)
 
 
 
