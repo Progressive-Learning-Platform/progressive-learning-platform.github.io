@@ -86,7 +86,6 @@ This document uses the following symbols and expressions throughout, refer here 
 * `-` - minus/subtract
 * `*` - multiply
 * `>>` - signed shift right
-* `>>>` - unsigned shift right
 * `<<` - shift left
 * `&` - bitwise AND
 * `|` - bitwise OR
@@ -94,9 +93,6 @@ This document uses the following symbols and expressions throughout, refer here 
 * `val = (expr) ? tr : fl` - this is a simplified version of an if-then-else statement
     * if `(expr)` is true, then `val` is set to `tr`. if `(expr)` is false, then `val` is set to `fl`
 * `<` - less than
-* `<=` - less than or equal to
-* `>` - greater than
-* `>=` - greater than or equal to
 * `==` - is equal to
 * `!=` - is NOT equal to
 * `SignExtend(val)` - take the value `val` and sign extend it to the required bit size(see [Signed & Unsigned]({{site.baseurl}}/secret.html#sign) for more info)
@@ -243,7 +239,7 @@ To implement a label, type the name of label you wish to use followed by a colon
 .org 0x10000000
 
 main:
-    &lt;instructions&gt;
+    # PLP instructions here
 </code></pre>
 
   * It is the standard convention to have the first label in a program titled "main".
@@ -254,7 +250,7 @@ _Note:_ It is possible to load a pointer to a label using the load immediate ins
 .org 0x10000000
 
 main: 
-    &lt;instructions&gt;
+    # PLP instructions here
 
 label2:
     li $t0 , main

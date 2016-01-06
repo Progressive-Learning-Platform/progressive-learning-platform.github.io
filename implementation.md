@@ -92,9 +92,6 @@ The RAM module is a volatile, random access memory that stores all the downloade
 ## Switches ##
 {:.ancs}
 
-#### Description ####
-{:.ancs}
-
 The Switches module is a read-only register that always holds the current value of the switch positions on the PLP Board. There are 8 switches on the PLP Board, which are mapped to the lowest byte of the register. Writing to this register will have no effect.
 
 [Back to the top](#top)
@@ -134,9 +131,6 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 
 
 ## LEDs ##
-{:.ancs}
-
-#### Description ####
 {:.ancs}
 
 The LEDs module is a read-write register that stores the value of the LEDs on the PLP Board. There are 8 LEDs, mapped to the lowest byte of the register. Reading the register will provide the current status of the LEDs, and writing to the register will update the LEDs' status.
@@ -180,9 +174,6 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 
 
 ## UART ##
-{:.ancs}
-
-#### Description ####
 {:.ancs}
 
 The UART module is designed to send or receive a single byte at a time, and can only store one byte in the send and receive buffer. This means that you must first either send the data in the buffer before reloading the buffer and you must retrieve the data in the receive buffer (by polling) before the next byte is available.
@@ -232,9 +223,6 @@ The UART module is running at 57600 baud, with 8 data bits, 1 stop bit, and no p
 
 
 ## Seven Segment Displays ##
-{:.ancs}
-
-#### Description ####
 {:.ancs}
 
 The Seven Segment Displays module exposes the raw seven segment LEDs to the user, allowing for specialized output. There are `libplp` wrappers that exist for various abstractions.
@@ -316,9 +304,6 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 
 
 ## Interrupt Controller ##
-{:.ancs}
-
-#### Description ####
 {:.ancs}
 
 <div class="mobile" markdown="1">
@@ -411,9 +396,6 @@ isr:
 
 
 ## Timer ##
-{:.ancs}
-
-#### Description ####
 {:.ancs}
 
 The timer module is a single 32-bit counter that increments by one every clock cycle. It can be written to at any time. At overflow, the timer will continue counting. The timer module is useful for waiting a specific amount of time with high resolution (20ns on the reference design).

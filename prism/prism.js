@@ -608,7 +608,7 @@ Prism.languages.plp = {
     'plporg': /\.org \w+/,
     'plpspace': /\.space .*/,
     'plpword': /\.word \w+/,
-    'plpascii': /\.ascii[z]{0,1} .*/,
+    'plpascii': /\.ascii[zw]{0,1} .*/,
     'plplabel': /\b\w+?[:]/,
     'plpoperator': /\b(addu|addiu|subu|mullo|mulhi|lui|and|andi|or|ori|nor|slt|slti|sltu|sltiu|sll|sllv|srl|srlv|j|jr|jal|jalr|beq|bne|lw|sw|b|move|push|pop|li|call|return|save|restore|lwm|swm)\b/,
     'plpnop': /nop/,
