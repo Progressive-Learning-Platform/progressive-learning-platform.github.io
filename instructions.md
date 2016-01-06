@@ -45,8 +45,8 @@ To use a comment, type `#` before your comment.  All text after the `#` until th
   * For example, if you wanted to put a comment on a blank line as well as a instruction line, the code would be:
 
 <pre><code class="language-plp">
-#this is the first comment 
-addu $s0, $s0, $s1 #this is the second comment
+# This is the first comment 
+addu $s0, $s0, $s1	# This is the second comment
 </code></pre>
 
 _Note:_ Comments are very helpful for debugging and helping others who read the code to understand what a certain segment of code is supposed to do.
@@ -54,24 +54,19 @@ _Note:_ Comments are very helpful for debugging and helping others who read the 
 [Back to the top](#top)
 
 
-## Numbers ##
+## Values ##
 {:.ancs}
 
-In many cases, you will have to use a number for a command or operation.  PLPTool has 3 different methods of writing numbers: binary, decimal, and hexadecimal.  Each has its own purpose, though most can be interchanged, with some exceptions.
+Some instructions require a value to be given.  PLPTool will accept values in 4 formats: binary (base 2), decimal (base 10), hexadecimal (base 16), and ASCII (converts from ascii encoding to a value). The representation is indicated using a prefix before the value.
 
-* To enter a binary number, prefix it with `0b` and make sure to use a combination of only `1`s or `0`s.
-* To enter a decimal number, just type the number.  *NOTE:* Leading zeros will not affect the number: `1241` is the same as `0001241`.
-* To enter a hexadecimal number, use either the `0x` prefix or the `0h` prefix.  *NOTE:* The `0x` prefix is more common and widely accepted in other applications.
 
-Binary numbers are mostly used for clarification, or for emphasis on the bits instead of as a number.  Decimal numbers are used for immediate and regular vaues.  Hexadecimal numbers are usually memory addresses or large values.
+| Representation	| Format				| Sample Usage	| Notes			|
+| :---------------- | :-------------------- | :------------ | :------------ |
+| Binary			| 0b&lt;value&gt;		| 0b10110		| Value can only contain `1`s and `0`s	|
+| Decimal			| &lt;value&gt;			| 1975			| A negative value can be represented by including a `-` symbol before the value. The value will be represented in two's complement |
+| Hexadecimal		| 0x&lt;value&gt;		| 0xfc10		| Also accepts `0h` prefix	|
+| ASCII				| '&lt;character&gt;'	| 'a'			| ASCII strings (more than one ASCII character) can only be used with [assembler directives](#data-and-string-allocation)	|
 
-<pre><code class="language-plp">
-124 # this is a decimal number
-0152    # this is a decimal number
-0x15ff  # this is a hexadecimal number
-0hf222  # this is a hexadecimal number, though not a very common notation 
-0b1001011   # this is a binary number
-</code></pre>
 
 [Back to the top](#top)
 
