@@ -176,9 +176,13 @@ Additional tutorial: [PLP Basic I/O Tutorial](https://www.youtube.com/watch?v=dd
 ## UART ##
 {:.ancs}
 
-The UART module is designed to send or receive a single byte at a time, and can only store one byte in the send and receive buffer. This means that you must first either send the data in the buffer before reloading the buffer and you must retrieve the data in the receive buffer (by polling) before the next byte is available.
+A Universal Asynchronous Receiver/Transmitter (UART) is used for serial communication between electronic devices. UARTs are often found on microcontrollers and can be used to communicate with a variety of sensors as well as other microcontrollers. PLPTool uses a Graphic User Interface (GUI) to give the user control of a [simulated device]({{site.baseurl}}/plptool.html#uart) that can communicate the the PLP UART. UART devices can both trasmit and receive data, but it's important to remember that something *transmitted* from one device will be *received* by the other device and vice versa. When using the simulated UART device, anything sent using the *send* button is going to be *received* by the PLP UART.
 
-There are four registers that are memory mapped that the UART module uses:
+Much like the PLP processor, the UART has it's own registers. These registers are used to interact with the UART and are mapped to specific memory addresses. The purpose of these registers is discussed in more detail in the next section. The following diagram illustrates how the PLP UART interacts with both the simulated device and a PLP Program.
+
+![{{site.baseurl}}/resources/users_manual_uart_diagram.png]({{site.baseurl}}/resources/users_manual_uart_diagram.png)
+
+### UART Registers ###
 
 <div class="mobile" markdown="1">
 

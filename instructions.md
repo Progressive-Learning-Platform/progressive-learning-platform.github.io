@@ -62,7 +62,7 @@ Some instructions require a value to be given.  PLPTool will accept values in 4 
 
 | Representation	| Format					| Sample Usage	| Notes			|
 | :---------------- | :------------------------ | :------------ | :------------ |
-| Binary			| `0b`&lt;value&gt;			| 0b10110		| Value can only contain `1`s and `0`s	|
+| Binary			| `0b`&lt;value&gt;			| 0b10110		| Binary values can only contain 1's and 0's	|
 | Decimal			| &lt;value&gt;				| 1975			| A negative value can be represented by including a `-` symbol before the value. The value will be represented in two's complement |
 | Hexadecimal		| `0x`&lt;value&gt;			| 0xfc10		| The prefix, `0h`, can also be used for hexadecimal values	|
 | ASCII				| `'`&lt;character&gt;`'`	| 'a'			| ASCII strings (more than one ASCII character) can only be used with [assembler directives](#data-and-string-allocation)	|
