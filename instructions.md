@@ -454,7 +454,7 @@ These operations allow for the traversal of programs, sometimes when certain par
 <div class="mobile" markdown="1">
 
 | Syntax		| Expression			    | Sample Usage          | Notes				                                        |
-| :-------------------- | :-------------------------------- | :-------------------- | :--------------------------------                                         |
+| :-------------------- | :-------------------------------- | :-------------------- | :--------------------------------         |
 | <span title="jump">`j label`</span>             | `PC = jump_target;`               | `j loop`              | Jump to loop label                                                        |
 | <span title="jump to register">`jr $rs`</span>              | `PC = rs;`                        | `jr $ra`              | Load the content of $ra into PC register                                  |
 | <span title="jump and link">`jal label`</span>           | `ra = PC + 4; PC = jump_target;`  | `jal read_serial`     | Jump to read_serial after saving return address to $ra                    |
@@ -606,73 +606,15 @@ The PLP assembler supports several pseudo-operations to make programming easier.
 
 </div>
 
-**EXAMPLE**
-
-<pre><code class="language-plp" id="clipboard-content-pseudo-ex">
-# main source file
-
-.org 0x10000000
-
-main:
-
-	li $sp , 0x10fffffc	# load a memory location(in this case, end/top of RAM) into $sp, the stack pointer register
-
-	# NOP - no op(eration), useful in the branch delay slot
-	# b - branch always
-	b label2	# branch always, branch to label2 unconditionally
-	nop	# in branch delay slot, does essentially nothing
-	
-label2:
-	# move - copies content from one register to another
-	li $t0 , 0x2	# load 2 into $t0
-	move $t1 , $t0	# copy $t0s value(2) into $t1
-
-	# push and pop
-	#	push stores the data into the memory address of $sp, then increments $sp so it points to the new top
-	#	pop decrements $sp and then restores data from the address, note that values are not overriden with pop, they just become inaccessible
-	li $t0 , 0x25	# load 37 into $t0
-	li $t1 , 0x25	# load 32 into $t1
-	push $t0	# push the value of $t0 (37) onto the stack, increment stack pointer
-	push $t1	# push the value of $t1 (32) onto the stack, increment stack pointer
-	pop $t0	# pop the value at the top of the stack (32), place into $t0, decrement stack pointer
-	pop $t1	# pop the value at the top of the stack (37), place into $t1, decrement stack pointer
-
-	# li - load immediate, loads a 32-bit value into a register, can also load a label(the memory location) into a register
-	li $t0 , 0x10052ff3	# load a large value into $t0 by using lui and ori
-	li $t1 , label2	# loads the memory location of label2 into $t1
-
-	# call and return
-	#	call will push the $a, $t, $s, and $ra registers on the stack, then jump to the label provided
-	#	return will jump to the addres in $ra, then pop the $a, $t, $s, and $ra registers from the stack in reverse order
-	call label3	# save registers, jump to label, no the absense of nop
-	
-	# save and restore
-	#	save pushes EVERY register(except $0) onto the stack
-	#	restore pops every register off the stack in reverse order
-	save	# saves all registers to stack
-	restore	# restores all registers from stack
-
-	# lwm and swm - loard word memory and store word memory
-	#	lwm will load a value from the immediate memory location into the register
-	#	swm will store a value from a register into the immediate memory location
-	lwm $t0 , 0xf0100000	# loads the value of the switches' memory location into $t0
-	swm $t0 , 0xf0200000	# stores the value of $t0 into the LEDs memory location
-
-label3:
-	return	# will return to where the progam was before last call, restores registers, note no nop
-</code></pre>
-<button title="Note: clipboard access is not available on all platforms, results may vary." id="clipboard-button-pseudo-ex" class="tiny copy-button" data-clipboard-target="clipboard-content-pseudo-ex">Copy to clipboard</button>
-
-<p class="panel show-for-touch">Note: clipboard access is not available on all platforms, results may vary.</p>
 
 [Back to the top](#top)
 
 
 
-## Notes on Register Usage ##
+## Registers Names and Conventions ##
 {:.ancs}
 
-Aside from $zero, $i0, $i1, and $ra, PLP does not explicitly assign special functions to a register.  This section lays down some conventions on how the other registers should be used.  All the supplied libraries adhere to this guideline.
+Aside from $zero, $at, $iv, $ir, $sp and $ra, PLP does not explicitly assign special functions to a register.  This section lays down some conventions on how the other registers should be used.  All libraries included with PLPTool adhere to these conventions.
 
 <div class="mobile" markdown="1">
 
