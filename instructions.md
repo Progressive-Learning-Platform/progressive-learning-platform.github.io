@@ -445,22 +445,43 @@ main:
 
 [Back to the top](#top)
 
+### Control Flow Operations ###
 
-### Jump and Branch Operations ###
+These operations allow for a program to execute instructions in a non-linear fashion. Without them it would only be possible to run instructions in order from the first instruction to the last instruction in memory. Control flow operations allow a program to execute instructions from a specified location in a program either conditional or unconditionally.
+
+**_IMPORTANT NOTE:_** There is a "branch delay slot" immediately after all control flow instruction (jumps and branchs).  The next line of code following the jump/branch will always be executed along with the jump/branch.  To avoid complications, it is generally advisable to put a no-operation instruction (`nop`) immediately after the jump/branch instruction, unless the branch delay slot needs to be utilized.
+
+#### Conditional (Branch) ####
 {:.ancs}
 
-These operations allow for the traversal of programs, sometimes when certain parameters are met, via labels.
+In a high level language, conditional statements are typically written as *if* statements. In PLP, **branch** instructions are used for conditional execution. Branch instructions use two registers and a label. They check the equalitiy of the value in two specified registers. There are two types of branch instructions, branch-if-equal (`beq`) and branch-if-not-equal (`bne`). A `beq` instruction will begin executing instructions at the specified label if the two register values are equal. A `bne` instruction will begin executing instructions at the specified label if the two register values not are equal. If the condition of a branch instruction was met then it is common to say, "the branch was taken".
+
+<div class="mobile" markdown="1">
+| Syntax		| Expression			    | Sample Usage          | Notes				                                        |
+| :-------------------- | :-------------------------------- | :-------------------- | :--------------------------------         |
+| <span title="branch if equal">`beq $rt, $rs, label`</span> | `if(rt == rs) PC = PC + 4 + imm;` | `beq $a0, $a1, done`  | Branch to `done` if $a0 and $a1 are equal                                   |
+| <span title="branch if not equal">`bne $rt, $rs, label`</span> | `if(rt != rs) PC = PC + 4 + imm;` | `bne $a0, $a1, error` | Branch to `error` if $a0 and $a1 are NOT equal                              |
+
+{:.mobile}
+
+</div>
+
+#### Unconditional (Jump) ####
+{:.ancs}
+
+A jump instruction always goes to a given in the instruction (some languages call this a *GOTO* instruction). PLP has several types of jump instructions. The simplist jump (`j`) goes to the label given in the instruction. The other jump instructions use registers and allow for more sophisticated control flow.
+
+The jump-and-link (`jal`) instruction saves the address of the instruction following the instruction's branch delay slot into register `$ra` (return address). The jump-register (`jr`) instruction can be used to jump back to this return address. This can be taken advantage of to write pieces of code, after a label, that can be used from multiple locations in the program. This reusable piece of code is often called a *subroutine*.
 
 <div class="mobile" markdown="1">
 
 | Syntax		| Expression			    | Sample Usage          | Notes				                                        |
 | :-------------------- | :-------------------------------- | :-------------------- | :--------------------------------         |
 | <span title="jump">`j label`</span>             | `PC = jump_target;`               | `j loop`              | Jump to loop label                                                        |
-| <span title="jump to register">`jr $rs`</span>              | `PC = rs;`                        | `jr $ra`              | Load the content of $ra into PC register                                  |
-| <span title="jump and link">`jal label`</span>           | `ra = PC + 4; PC = jump_target;`  | `jal read_serial`     | Jump to read_serial after saving return address to $ra                    |
-| <span title="jump to register and link">`jalr $rd, $rs`</span>       | `rd = PC + 4; PC = rs;`           | `jalr $s5, $t0`       | Jump to location gien by contents of `rs`, save return address in `rd`.   |
-| <span title="branch if equal">`beq $rt, $rs, label`</span> | `if(rt == rs) PC = PC + 4 + imm;` | `beq $a0, $a1, done`  | Branch to done if $a0 and $a1 are equal                                   |
-| <span title="branch if not equal">`bne $rt, $rs, label`</span> | `if(rt != rs) PC = PC + 4 + imm;` | `bne $a0, $a1, error` | Branch to error if $a0 and $a1 are NOT equal                              |
+| <span title="jump and link">`jal label`</span>           | `ra = PC + 4; PC = jump_target;`  | `jal read_serial`     | Jump to read_serial after saving return address to $ra |
+| <span title="jump to register">`jr $rs`</span>              | `PC = rs;`                        | `jr $ra`              | Load the content of $ra into PC register  |
+| <span title="jump to register and link">`jalr $rd, $rs`</span>       | `rd = PC + 4; PC = rs;`           | `jalr $s5, $t0`       | Jump to location gien by contents of `rs`, save return address in `rd`. |
+
 {:.mobile}
 
 </div>
@@ -469,8 +490,6 @@ These operations allow for the traversal of programs, sometimes when certain par
 `$rs` is the source registers: this is the value that the operation acts upon.<br/>
 `$rd` is the destination register, where the resulting value will go.<br/>
 `$rt` is the target register: this is the value that the operation uses.
-
-**_IMPORTANT NOTE:_** After every jump/branch instruction, there is a "branch delay slot" immediately after.  The next line of code following the jump/branch will also get executed along with the jump/branch.  To avoid complications, it is generally advisable to put a no operation instruction (nop) immediately after the jump/branch instruction, unless the branch delay slot needs to be utilized.
 
 **EXAMPLE**
 
