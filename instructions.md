@@ -371,9 +371,9 @@ These operations allow for basic logical/bitwise operations, such as AND or OR, 
 | Syntax		| Expression			         | Sample Usage             | Notes				                        |
 | :-------------------- | :--------------------------------      | :--------------------    | :--------------------------------                         |
 | <span title="bitwise AND">`and   $rd, $rs, $rt`</span>	| `rd = rs & rt;`		         | `and   $v0, $a0, $a1`    | Bitwise logical AND		                        |
-| <span title="bitwise AND immediate">`andi  $rd, $rs, imm`</span> | `rd = rs & ZeroExtend(imm);`           | `andi  $v0, $a0, 1337`   | Bitwise Logical AND                                       |
+| <span title="bitwise AND immediate">`andi  $rd, $rs, imm`</span> | `rd = rs & ZeroExtend(imm);`           | `andi  $v0, $a0, 1337`   | Bitwise logical AND                                       |
 | <span title="bitwise OR">`or    $rd, $rs, $rt`</span>	| `rd = rs | rt;`		         | `or    $v0, $a0, $a1`    | Bitwise logical OR		                        |
-| <span title="bitwise OR immediate">`ori   $rd, $rs, imm`</span> | `rd = rs  |  ZeroExtend(imm);`         | `ori   $v0, $a0, 0x0539` | Bitwise Logical OR                                        |
+| <span title="bitwise OR immediate">`ori   $rd, $rs, imm`</span> | `rd = rs  |  ZeroExtend(imm);`         | `ori   $v0, $a0, 0x0539` | Bitwise logical OR                                        |
 | <span title="bitwise NOR">`nor   $rd, $rs, $rt`</span>	| `rd = ~(rs | rt);`	                 | `nor   $v0, $a0, $a1`    | Bitwise logical NOR		                        |
 | <span title="is less than">`slt   $rd, $rs, $rt`</span>	| `rd = (rs < rt) ? 1 : 0;`	         | `slt   $v0, $a0, $a1`    | Signed compare			                        |
 | <span title="is less than immediate">`slti  $rd, $rs, imm`</span> | `rd = (rs < SignExtend(imm)) ? 1 : 0;` | `slti  $v0, $a0, 0xDEAD` | Signed compare                                            |
@@ -455,6 +455,8 @@ These operations allow for a program to execute instructions in a non-linear fas
 {:.ancs}
 
 In a high level language, conditional statements are typically written as *if* statements. In PLP, **branch** instructions are used for conditional execution. Branch instructions use two registers and a label. They check the equalitiy of the value in two specified registers. There are two types of branch instructions, branch-if-equal (`beq`) and branch-if-not-equal (`bne`). A `beq` instruction will begin executing instructions at the specified label if the two register values are equal. A `bne` instruction will begin executing instructions at the specified label if the two register values not are equal. If the condition of a branch instruction was met then it is common to say, "the branch was taken".
+
+Branching based on an inequality requires the use of two instructions, a set-less-than instruction ([`slt`](#logicalbitwise-operations)) and a branch instruction. The branch instruction can be used to compare the result of the `slt` with the zero register (`$0`).
 
 <div class="mobile" markdown="1">
 | Syntax		| Expression			    | Sample Usage          | Notes				                                        |
