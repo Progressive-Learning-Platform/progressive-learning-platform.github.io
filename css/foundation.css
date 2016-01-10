@@ -6337,8 +6337,8 @@ th.hide-for-touch {
 }
 
 .mobile {
-    /* white-space: nowrap; */
-	white-space: visible;
+    white-space: nowrap;
+	/* white-space: visible; */
 	
     /* max-width:  90%; */
     /* max-height: 50%; */
