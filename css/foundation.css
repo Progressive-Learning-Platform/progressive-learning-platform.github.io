@@ -118,7 +118,8 @@ img {
 
 textarea {
   min-height: 50px; 
-  max-height: 50%;
+  /* max-height: 50%; */
+  max-height: none;
   }
 
 select {
@@ -3798,7 +3799,8 @@ small {
   line-height: inherit; }
 
 code:not(.language-plp) {
-    max-height: 50%;
+    /* max-height: 50%; */
+	max-height: none;
     border: solid 1px #dfdfdf;
     color-background: #f8f8f8;
     font-family: Consolas, "Liberation Mono", Courier, monospce;
@@ -6336,8 +6338,10 @@ th.hide-for-touch {
 
 .mobile {
     white-space: nowrap;
-    max-width:  90%;
-    max-height: 50%;
+    /* max-width:  90%; */
+    /* max-height: 50%; */
+	max-height: none;
+	max-width:  100%;
     display: block;
     overflow: auto;
 }

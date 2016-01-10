@@ -637,7 +637,7 @@ The PLP assembler supports several pseudo-operations to make programming easier.
 
 Aside from $zero, $at, $iv, $ir, $sp and $ra, PLP does not explicitly assign special functions to a register.  This section lays down some conventions on how the other registers should be used.  All libraries included with PLPTool adhere to these conventions.
 
-<div class="mobile" markdown="1">
+
 
 | Register    	| Usage                     				| Notes 	| 
 | :---------------- | :---------------------------------- | :--------- |
@@ -654,7 +654,7 @@ Aside from $zero, $at, $iv, $ir, $sp and $ra, PLP does not explicitly assign spe
 | `$ra`       		| Return address            		| Do not manually write to this register unless restoring from the stack for nested function calls.  Use this register to return from a function using the jump register instruction | 
 {:.mobile}
 
-</div>
+
 
 [Back to the top](#top)
 
