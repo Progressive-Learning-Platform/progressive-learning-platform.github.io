@@ -346,7 +346,7 @@ main:
     li $t0 , 87578778	# load a large number into $t0	
     li $t1 , -87578778	# load a large negative number(small) into $t1
     mullo $t2 , $t0 , $t1	# multiply, low order bits
-    mulhi $t2 , $t0 , $t1	# multiply, high order bits
+    mulhi $t3 , $t0 , $t1	# multiply, high order bits
 
     # here, the upper bits are neccessary to properly represent the value
     # $t2 will have 0x19F5C35C(435536732)	note how this is not negative by itself, it needs the upper bits to be complete
