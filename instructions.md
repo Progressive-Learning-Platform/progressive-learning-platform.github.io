@@ -548,7 +548,7 @@ func1:
 [Back to the top](#top)
 
 
-### Memory-focused Operations ###
+### Memory-Focused Operations ###
 {:.ancs}
 
 These operations allow for the manipulation of memory and values within.
@@ -563,9 +563,6 @@ These operations allow for the manipulation of memory and values within.
 
 </div>
 
-`$rt` is the target register: where the value will be.<br/>
-`imm` is the offset of memory, in bytes.<br/>
-`$rs` is the source register, holds a memory location.
 
 **EXAMPLE**
 
