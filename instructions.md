@@ -555,10 +555,10 @@ These operations allow for the manipulation of memory and values within.
 
 <div class="mobile" markdown="1">
 
-| Syntax		| Expression			    | Sample Usage          | Notes				            |
+| Instruction		| Example			    | Meaning          | Notes				            |
 | :-------------------- | :-------------------------------- | :-------------------- | :--------------------------------             |
-| <span title="load word from memory">`lw $rt, imm($rs)`</span>    | `rt = SignExtend(imm)[rs];`       | `lw $v0, 0x4000($a1)` | Load contents of 0x4000 + $a1 into $v0        |
-| <span title="store word into memory">`sw $rt, imm($rs)`</span>    | `SignExtend(imm)[rs] = rt;`       | `sw $a0, 128($v0)`    | Store contents of register $a0 to 128 + $v0   |
+| load word | <span title="load word from memory">`lw $t0, 8($t1)`</span>   |  `$t0` = Memory[`$t1` + 8] | A memory address is calculated by adding the value in `$t1` with 8. <br> The value at this address is copied into `$t0`.    |
+| store word | <span title="store word in memory">`sw $t0, 12($t1)`</span>   |  Memory[`$t1` + 12] = `$t0` | A memory address is calculated by adding the value in `$t1` with 12. <br> The value in `$t0` copied into this address.    |
 {:.mobile}
 
 </div>
@@ -651,7 +651,7 @@ Aside from $zero, $at, $iv, $ir, $sp and $ra, PLP does not explicitly assign spe
 | `$iv`       		|  Interrupt vector          		| The CPU jumps to the address pointed by this register when an interrupt occurs	| 
 | `$sp`       		| Stack pointer             			| Use this register to implement a stack	| 
 | `$ir`       			| Interrupt return address	| Written by the CPU when an interrupt occurs	| 
-| `$ra`       		| Return address            		| Do not manually write to this register unless restoring from the stack for nested function calls.  Use this register to return from a function using the jump register instruction | 
+| `$ra`       		| Return address            		| Do not manually write to this register unless restoring from the stack for nested function calls.<br>  Use this register to return from a function using the jump register instruction | 
 {:.mobile}
 
 
