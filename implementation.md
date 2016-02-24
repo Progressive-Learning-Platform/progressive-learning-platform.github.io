@@ -180,7 +180,8 @@ A Universal Asynchronous Receiver/Transmitter (UART) is used for serial communic
 
 Much like the PLP processor, the UART has it's own registers. These registers are used to interact with the UART and are mapped to specific memory addresses. The purpose of these registers is discussed in more detail in the next section. The following diagram illustrates how the PLP UART interacts with both the simulated device and a PLP Program.
 
-![{{site.baseurl}}/resources/users_manual_uart_diagram.png]({{site.baseurl}}/resources/users_manual_uart_diagram.png)
+<img src="{{site.baseurl}}/resources/users_manual_uart_diagram.png" align="middle" style="width: 800px;"/>
+<br/>
 
 ### UART Registers ###
 

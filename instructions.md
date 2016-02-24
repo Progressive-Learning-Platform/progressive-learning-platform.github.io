@@ -548,10 +548,19 @@ func1:
 [Back to the top](#top)
 
 
-### Memory-Focused Operations ###
+### Data-Transfer Operations ###
 {:.ancs}
 
-These operations allow for the manipulation of memory and values within.
+These operations allow a value to be copied from memory into a register and from a register to memory. Both instructions have the same basic syntax and only differ in the direction data is being copied. Each requires the use of two registers: one register is where data is either being copied to or from and the other register contains the memory address where data is being transfered to or from (it is being used as a pointer).
+
+The first data-transfer operations is load word (*lw*), which loads or reads a value from a memory address into a register. The diagram below shows how this instruction works. Before the instruction is run, the second register in the instruction, *$t0* in this example, must already contain the memory address to be read from. In this case it has the value `0x100000f4` so this is the memory address that will be read from. The *lw* instruction will copy the value at this address into the first register, *$t1*.
+
+<img src="{{site.baseurl}}/resources/users_manual_mem_diagram.png" align="middle" style="width: 650px;">
+
+The second data-transfer operation is store word (*sw*), which stores or writes a value from a register into memory address. At the assembly level, memory (RAM) is used as storage for data that is not currently being used because instructions no single instruction, other than data-transfer instructions, can use or modify data kept in memory. For this reason an easy way to remember the difference between load word and store word is that store word is storing a value away for later use.
+
+**NOTE:** If you are trying to copy a value from one register to another you are most likely looking for the [move]({{site.baseurl}}/instructions.html#pseudo-operations) pseudo-op.
+
 
 <div class="mobile" markdown="1">
 
