@@ -557,7 +557,7 @@ The first data-transfer operations is load word (*lw*), which loads or reads a v
 
 <img src="{{site.baseurl}}/resources/users_manual_mem_diagram.png" align="middle" style="width: 650px;">
 
-The second data-transfer operation is store word (*sw*), which stores or writes a value from a register into memory address. At the assembly level, memory (RAM) is used as storage for data that is not currently being used because instructions no single instruction, other than data-transfer instructions, can use or modify data kept in memory. For this reason an easy way to remember the difference between load word and store word is that store word is putting a value in storage (memory) for later use.
+The second data-transfer operation is store word (*sw*), which stores or writes a value from a register into memory address. At the assembly level, memory (RAM) is used as storage for data that is not currently being used because instructions no single instruction, other than data-transfer instructions, can use or modify data kept in memory. For this reason an easy way to remember the difference in direction between load word and store word is that store word is putting a value in storage (memory) for later use.
 
 **NOTE:** If you are trying to copy a value from one register to another you are most likely looking for the [move]({{site.baseurl}}/instructions.html#pseudo-operations) pseudo-op.
 
