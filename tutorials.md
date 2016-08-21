@@ -2,23 +2,17 @@
 title: Tutorials
 layout: main
 ---
-<head>
-    <title>{{ page.title }}</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="{{site.baseurl}}/js/vendor/modernizr.js"></script>
-</head>
 
-<div class="hide-for-small-only">
+<div class="show-for-medium-up" style="display: none">
     <div class="medium-3 columns">
 	<div class="panel">
 
 	
 <!-- NOTE: the following block must not be indented or it isn't properly recognized as markdown -->
-<div markdown="1">
 
 <h3 class="noanchor"> Table of Contents </h3>
-{:.no_toc}
+
+<div markdown="1" class="toc">
 
 1. TOC
 {:toc}
@@ -31,18 +25,9 @@ layout: main
     </div>
 </div>
 
-<div class="row">
-	<div class="small-12 medium-9 columns end">
-		<div markdown="1">
+<div class="medium-9 columns my-content" markdown="1">
+<div class="ancs" id="top"></div>
 
-<div style="display: none;"> <!-- this is just test code, it will not affect anything --!>
-    <ul class="toctest">
-        <li>Item</li>
-        <li>Item 2</li>
-    </ul>
-</div>
-
-<div class="tocplace"></div>
 
 # Tutorials #
 
