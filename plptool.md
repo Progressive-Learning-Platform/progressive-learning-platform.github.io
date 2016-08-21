@@ -46,7 +46,7 @@ PLPTool is the software suite for the Progressive Learning Platform that incorpo
 
 Always make sure to run the latest version of PLPTool. Not only does it offer new features or bug fixes, this manual is also tailored to the newest version and certain sections may not be applicable to older versions.
 
-The latest version of PLPTool (5.1) is available on [GitHub](https://github.com/Progressive-Learning-Platform/progressive-learning-platform/releases). Download the .zip file on the right side.  It will contain the following directories:
+The latest version of PLPTool (5.2) is available on [GitHub](https://github.com/Progressive-Learning-Platform/progressive-learning-platform/releases). Download the .zip file on the right side.  It will contain the following directories:
 
 * *images* - misc images for use by PLPTool
 * *misc* - miscellaneous files
