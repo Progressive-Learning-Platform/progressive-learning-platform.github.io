@@ -353,13 +353,13 @@ Status Register:
 
 The interrupt controller marshals the interrupt behavior of the PLP system.
 
-The user uses the two registers in the interrupt controller, mask and status, along with the interrupt registers, $i0 and $i1, to control all interrupt behavior.
+The user uses the two registers in the interrupt controller, mask and status, along with the interrupt registers, $iv and $ir, to control all interrupt behavior. Along with this we have $i0 and $i1 as temporary registers which can be used inside your interrupt service routine.
 
-Before enabling interrupts, the user must supply a pointer to the interrupt vector in register $i0.
+Before enabling interrupts, the user must supply a pointer to the interrupt vector in register $iv.
 
 <pre><code class="language-plp">
 main:
-  li $i0, isr # put a pointer to our isr in $i0
+  li $iv, isr # put a pointer to our isr in $iv
 
 isr: ...
 </code></pre>
@@ -371,24 +371,24 @@ The user enables interrupts by setting any desired interrupts in the mask regist
 
 **_IMPORTANT NOTE:_** When returning from an interrupt, set the Global Interrupt Enable (GIE) bit in the delay slot of the returning jump instruction. This is necessary to prevent any interrupts from occurring while still in the interrupt vector.
 
-When an interrupt occurs, the return address is stored in $i1.
+When an interrupt occurs, the return address is stored in $ir.
 
 A typical interrupt vector:
 
 <pre><code class="language-plp">
 isr:
-	li $t0, 0xf0700000
-	lw $t1, 4($t0)     # read the status register
+	li $i0, 0xf0700000
+	lw $i1, 4($i0)     # read the status register
 	  
 	#check status bits and handle any pending interrupts
-	#clear any handled interrupts in $t1
+	#clear any handled interrupts in $i1
 
-	sw $t1, 4($t0)     # clear any handled interrupts in the status register
-	lw $t1, 0($t0)     # get the mask register
-	ori $t1, $t1, 1    # set GIE
+	sw $i1, 4($i0)     # clear any handled interrupts in the status register
+	lw $i1, 0($i0)     # get the mask register
+	ori $i1, $i1, 1    # set GIE
 
-	jr $i1
-	sw $t1, 0($t0)     # store the mask register in the delay slot to guarantee proper exit
+	jr $ir
+	sw $i1, 0($i0)     # store the mask register in the delay slot to guarantee proper exit
 </code></pre>
 
 
