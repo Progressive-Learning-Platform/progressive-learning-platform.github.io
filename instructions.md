@@ -619,8 +619,8 @@ The PLP assembler supports several pseudo-operations to make programming easier.
 | `nop`                  | `sll $0, $0, 0`                                        | No-operation.  Can be used for branch delay slots                   | 
 | `b label`              | `beq $0, $0, label`                                    | Branch always to label                                              | 
 | `move $rd, $rs`        | `add $rd, $0, $rs`                                     | Copy $rs to $rd                                                     | 
-| `push $rt`             | `addiu $sp, $sp, -4; sw $rt, 0($sp)`                   | Push $rt into the stack                                             | 
-| `pop $rt`              | `lw $rt, 0($sp); addiu $sp, $sp, 4`                    | Pop data from the top of the stack to $rt                           | 
+| `push $rt`             | `addiu $sp, $sp, -4; sw $rt, 4($sp)`                   | Push $rt into the stack                                             | 
+| `pop $rt`              | `lw $rt, 4($sp); addiu $sp, $sp, 4`                    | Pop data from the top of the stack to $rt                           | 
 | `li $rd, imm`          | `lui $rd, (imm & 0xff00) >> 16; ori $rd, imm & 0x00ff` | Load a 32-bit number to $rd                                         | 
 | `li $rd, label`        | `lui $rd, (imm & 0xff00) >> 16; ori $rd, imm & 0x00ff` | Load the address of a label to a register to be used as a pointer.  | 
 | `call label`           |                                                        | Save $aX, $tX, $sX, and $ra to stack and call function              | 
