@@ -272,8 +272,8 @@ These operations allow for basic arithmetic, such as addition and subtraction, w
 | <span title="Add unsigned">`addu  $rd, $rs, $rt`</span>	| `rd = rs + rt;`		    | `addu  $v0, $a0, $a1`    | Unsigned addition(see above)		|
 | <span title="Add immediate unsigned">`addiu $rd, $rs, imm`</span> | `rd = rs + SignExtend(imm);`      | `addiu $v0, $a0, 0xFEED` | Unsigned addition(see above), add $a0 with 65261  |
 | <span title="Subtract unsigned">`subu  $rd, $rs, $rt`</span>	| `rd = rs - rt;`		    | `subu  $v0, $a0, $a1`    | Unsigned subtraction(see above)		        |
-| <span title="Multiply, low order">`mullo $rd, $rs, $rt`</span>	| `rd = (rs * rt) & 0xFFFFFFFF;`    | `mullo $v0, $a0, $a1`    | Multiply (return low order bits)	|
-| <span title="Multiply, high order">`mulhi $rd, $rs, $rt`</span>	| `rd = (rs * rt) >> 32;`	    | `mulhi $v0, $a0, $a1`    | Multiply (return high order bits)	|
+| <span title="Multiply, low order">`mullo $rd, $rs, $rt`</span>	| `rd = (rs * rt) & 0xFFFFFFFF;`    | `mullo $v0, $a0, $a1`    | Low order bits of 64-bit multiplication result (bits [31:0])	|
+| <span title="Multiply, high order">`mulhi $rd, $rs, $rt`</span>	| `rd = (rs * rt) >> 32;`	    | `mulhi $v0, $a0, $a1`    | High order bits of 64-bit multiplication result (bits [61:32])	|
 | <span title="Load upper immediate">`lui $rt, imm`</span>        | `rt = imm << 16;`                 | `lui $a0, 0xFEED`        | Write 0xFEED0000 to $a0 register.      |
 {:.mobile}
 
