@@ -31,9 +31,9 @@ layout: main-noanc
 
 This page contained a now deprecated version of the PLPTool User Manual.  The current PLP User Manul pages can be found in the Table of Contents on the left.
 
-If you are looking for documentation on the PLP language, it can be found [here]({{site.baseurl}}/instructions.html).
+Documentation on the **PLP language** can be found [here]({{site.baseurl}}/instructions.html).
 
-If you are looking for documentation on PLPTool devices, it can be found [here]({{site.baseurl}}/implementation.html).
+Documentation on **PLPTool I/O devices** can be found [here]({{site.baseurl}}/implementation.html).
 
 
 </div>
