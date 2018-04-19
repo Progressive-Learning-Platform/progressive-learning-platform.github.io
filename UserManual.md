@@ -29,7 +29,11 @@ layout: main-noanc
 
 <div class="medium-9 columns" markdown="1">
 
-This URL previously contained a now deprecated version of the PLPTool User Manual.  The current PLP User Manul pages can be found in the table of contents on the left. Documentation on the PLP language is found in the [ISA, Syntax, and I/O]({{site.baseurl}}/instructions.html) section and documentation on PLPTool devices can be found in the [PLP Implementation]({{site.baseurl}}/implementation.html) section.
+This page contained a now deprecated version of the PLPTool User Manual.  The current PLP User Manul pages can be found in the Table of Contents on the left.
+
+If you are looking for documentation on the PLP language, it can be found [here]({{site.baseurl}}/instructions.html).
+
+If you are looking for documentation on PLPTool devices, it can be found [here]({{site.baseurl}}/implementation.html).
 
 
 </div>
